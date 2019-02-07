@@ -8,5 +8,6 @@ namespace LoanRecorder.Role
 {
     class LoanDetails
     {
+
     }
 }
