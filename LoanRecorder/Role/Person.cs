@@ -13,14 +13,36 @@ namespace LoanRecorder.Role
         private string nic;
         private string tel;
         private string address;
+        private LoanDetails loanDetails;
         private Guarantor [] guarantors = new Guarantor[2];
+        private LinkedList<PaymentRecords> paymentRecords;
 
         public Person()
         {
-            
+            paymentRecords = new LinkedList<PaymentRecords>();
         }
 
         public Person(Guarantor[] guarantors)
+        {
+            Guarantors = guarantors;
+        }
+
+        public Person(LinkedList<PaymentRecords> paymentRecords)
+        {
+            PaymentRecords = paymentRecords;
+        }
+
+        public Person(LoanDetails loanDetails)
+        {
+            LoanDetails = loanDetails;
+        }
+
+        public Person(long pid, LoanDetails loanDetails) : this(pid)
+        {
+            LoanDetails = loanDetails;
+        }
+
+        public Person(long pid, Guarantor[] guarantors) : this(pid)
         {
             Guarantors = guarantors;
         }
@@ -53,5 +75,7 @@ namespace LoanRecorder.Role
         public string Tel { get => tel; set => tel = value; }
         public string Address { get => address; set => address = value; }
         internal Guarantor[] Guarantors { get => guarantors; set => guarantors = value; }
+        internal LoanDetails LoanDetails { get => loanDetails; set => loanDetails = value; }
+        internal LinkedList<PaymentRecords> PaymentRecords { get => paymentRecords; set => paymentRecords = value; }
     }
 }
