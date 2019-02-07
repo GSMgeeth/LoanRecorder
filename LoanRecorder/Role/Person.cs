@@ -13,40 +13,29 @@ namespace LoanRecorder.Role
         private string nic;
         private string tel;
         private string address;
-        private LoanDetails loanDetails;
-        private Guarantor [] guarantors = new Guarantor[2];
+        private LinkedList<LoanDetails> loanDetails;
         private LinkedList<PaymentRecords> paymentRecords;
 
         public Person()
         {
             paymentRecords = new LinkedList<PaymentRecords>();
         }
-
-        public Person(Guarantor[] guarantors)
+        
+        public Person(LinkedList<LoanDetails> loanDetails)
         {
-            Guarantors = guarantors;
+            LoanDetails = loanDetails;
+        }
+
+        public Person(long pid, LinkedList<LoanDetails> loanDetails) : this(pid)
+        {
+            LoanDetails = loanDetails;
         }
 
         public Person(LinkedList<PaymentRecords> paymentRecords)
         {
             PaymentRecords = paymentRecords;
         }
-
-        public Person(LoanDetails loanDetails)
-        {
-            LoanDetails = loanDetails;
-        }
-
-        public Person(long pid, LoanDetails loanDetails) : this(pid)
-        {
-            LoanDetails = loanDetails;
-        }
-
-        public Person(long pid, Guarantor[] guarantors) : this(pid)
-        {
-            Guarantors = guarantors;
-        }
-
+        
         public Person(long pid, string name, string nic, string tel, string address)
         {
             this.Pid = pid;
@@ -74,8 +63,7 @@ namespace LoanRecorder.Role
         public string Nic { get => nic; set => nic = value; }
         public string Tel { get => tel; set => tel = value; }
         public string Address { get => address; set => address = value; }
-        internal Guarantor[] Guarantors { get => guarantors; set => guarantors = value; }
-        internal LoanDetails LoanDetails { get => loanDetails; set => loanDetails = value; }
         internal LinkedList<PaymentRecords> PaymentRecords { get => paymentRecords; set => paymentRecords = value; }
+        internal LinkedList<LoanDetails> LoanDetails { get => loanDetails; set => loanDetails = value; }
     }
 }
