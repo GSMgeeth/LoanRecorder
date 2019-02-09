@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddPaymentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddPaymentForm.Designer.cs">
+      <DependentUpon>AddPaymentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Common\Global.cs" />
     <Compile Include="Common\Validation.cs" />
     <Compile Include="Core\Connection.cs" />
@@ -59,6 +65,12 @@
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PaymentDetailsForm.Designer.cs">
+      <DependentUpon>PaymentDetailsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

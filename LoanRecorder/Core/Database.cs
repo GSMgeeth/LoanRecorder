@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace LoanRecorder.Core
 {
@@ -31,6 +32,10 @@ namespace LoanRecorder.Core
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.Message);
+
+                    MessageBox.Show("Something went wrong!\n" + ex.Message, "Add Customer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                     return false;
                 }
             }
@@ -56,6 +61,10 @@ namespace LoanRecorder.Core
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.Message);
+
+                    MessageBox.Show("Something went wrong!\n" + ex.Message, "Update Customer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                     return false;
                 }
             }
@@ -77,6 +86,10 @@ namespace LoanRecorder.Core
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.Message);
+
+                    MessageBox.Show("Something went wrong!\n" + ex.Message, "Delete Customer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                     return false;
                 }
             }
@@ -92,16 +105,20 @@ namespace LoanRecorder.Core
             {
                 MySqlDataReader reader = Connection.getData("select * from person where pid=" + pid);
 
-                Person person = new Person();
+                Person person = null;
 
                 while (reader.Read())
                 {
+                    person = new Person();
+
                     person.Pid = reader.GetInt32(0);
                     person.Name = reader.GetString(1);
                     person.Nic = reader.GetString(2);
                     person.Tel = reader.GetString(3);
                     person.Address = reader.GetString(4);
                 }
+
+                reader.Close();
 
                 return person;
             }
@@ -132,6 +149,8 @@ namespace LoanRecorder.Core
                     persons.AddLast(person);
                 }
 
+                reader.Close();
+
                 return persons;
             }
             else
@@ -146,16 +165,49 @@ namespace LoanRecorder.Core
             {
                 MySqlDataReader reader = Connection.getData("select * from person where nic='" + nic + "'");
 
-                Person person = new Person();
+                Person person = null;
 
                 while (reader.Read())
                 {
+                    person = new Person();
+
                     person.Pid = reader.GetInt32(0);
                     person.Name = reader.GetString(1);
                     person.Nic = reader.GetString(2);
                     person.Tel = reader.GetString(3);
                     person.Address = reader.GetString(4);
                 }
+
+                reader.Close();
+
+                return person;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Person GetPersonByTel(string tel)
+        {
+            if (!tel.Equals(""))
+            {
+                MySqlDataReader reader = Connection.getData("select * from person where tel='" + tel + "'");
+
+                Person person = null;
+
+                while (reader.Read())
+                {
+                    person = new Person();
+
+                    person.Pid = reader.GetInt32(0);
+                    person.Name = reader.GetString(1);
+                    person.Nic = reader.GetString(2);
+                    person.Tel = reader.GetString(3);
+                    person.Address = reader.GetString(4);
+                }
+
+                reader.Close();
 
                 return person;
             }
@@ -183,6 +235,8 @@ namespace LoanRecorder.Core
 
                 persons.AddLast(person);
             }
+
+            reader.Close();
 
             return persons;
         }
