@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -111,6 +112,7 @@
             this.label31 = new System.Windows.Forms.Label();
             this.mainFormErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.updateCustIdTxtBox = new System.Windows.Forms.TextBox();
             this.mainTabControl.SuspendLayout();
             this.dashboardTab.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -570,6 +572,7 @@
             // 
             this.updateCustPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.updateCustPanel.BackColor = System.Drawing.Color.DarkGray;
+            this.updateCustPanel.Controls.Add(this.updateCustIdTxtBox);
             this.updateCustPanel.Controls.Add(this.updateCustClearBtn);
             this.updateCustPanel.Controls.Add(this.updateCustBtn);
             this.updateCustPanel.Controls.Add(this.updateCustAddressTxtBox);
@@ -606,6 +609,7 @@
             this.updateCustBtn.TabIndex = 9;
             this.updateCustBtn.Text = "Update Customer";
             this.updateCustBtn.UseVisualStyleBackColor = false;
+            this.updateCustBtn.Click += new System.EventHandler(this.updateCustBtn_Click);
             // 
             // updateCustAddressTxtBox
             // 
@@ -632,6 +636,8 @@
             this.updateCustTelTxtBox.Name = "updateCustTelTxtBox";
             this.updateCustTelTxtBox.Size = new System.Drawing.Size(370, 26);
             this.updateCustTelTxtBox.TabIndex = 6;
+            this.updateCustTelTxtBox.Validating += new System.ComponentModel.CancelEventHandler(this.updateCustTelTxtBox_Validating);
+            this.updateCustTelTxtBox.Validated += new System.EventHandler(this.updateCustTelTxtBox_Validated);
             // 
             // label8
             // 
@@ -650,6 +656,8 @@
             this.updateCustNicTxtBox.Name = "updateCustNicTxtBox";
             this.updateCustNicTxtBox.Size = new System.Drawing.Size(370, 26);
             this.updateCustNicTxtBox.TabIndex = 4;
+            this.updateCustNicTxtBox.Validating += new System.ComponentModel.CancelEventHandler(this.updateCustNicTxtBox_Validating);
+            this.updateCustNicTxtBox.Validated += new System.EventHandler(this.updateCustNicTxtBox_Validated);
             // 
             // label9
             // 
@@ -668,6 +676,8 @@
             this.updateCustNameTxtBox.Name = "updateCustNameTxtBox";
             this.updateCustNameTxtBox.Size = new System.Drawing.Size(370, 26);
             this.updateCustNameTxtBox.TabIndex = 2;
+            this.updateCustNameTxtBox.Validating += new System.ComponentModel.CancelEventHandler(this.updateCustNameTxtBox_Validating);
+            this.updateCustNameTxtBox.Validated += new System.EventHandler(this.updateCustNameTxtBox_Validated);
             // 
             // label10
             // 
@@ -854,11 +864,21 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.customerDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.customerDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customerDataGrid.DefaultCellStyle = dataGridViewCellStyle8;
             this.customerDataGrid.Location = new System.Drawing.Point(6, 310);
             this.customerDataGrid.Name = "customerDataGrid";
             this.customerDataGrid.ReadOnly = true;
             this.customerDataGrid.Size = new System.Drawing.Size(1020, 308);
             this.customerDataGrid.TabIndex = 0;
+            this.customerDataGrid.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.customerDataGrid_CellMouseClick);
+            this.customerDataGrid.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.customerDataGrid_RowHeaderMouseClick);
             // 
             // otherTab
             // 
@@ -999,6 +1019,15 @@
             this.notifyIcon.Text = "notifyIcon1";
             this.notifyIcon.Visible = true;
             // 
+            // updateCustIdTxtBox
+            // 
+            this.updateCustIdTxtBox.Location = new System.Drawing.Point(155, 175);
+            this.updateCustIdTxtBox.Name = "updateCustIdTxtBox";
+            this.updateCustIdTxtBox.ReadOnly = true;
+            this.updateCustIdTxtBox.Size = new System.Drawing.Size(100, 26);
+            this.updateCustIdTxtBox.TabIndex = 11;
+            this.updateCustIdTxtBox.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1123,6 +1152,7 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.ErrorProvider mainFormErrorProvider;
         private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.TextBox updateCustIdTxtBox;
     }
 }
 
