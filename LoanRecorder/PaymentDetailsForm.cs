@@ -1,5 +1,4 @@
-﻿using LoanRecorder.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,16 +10,11 @@ using System.Windows.Forms;
 
 namespace LoanRecorder
 {
-    public partial class Form1 : Form
+    public partial class PaymentDetailsForm : Form
     {
-        public Form1()
+        public PaymentDetailsForm()
         {
             InitializeComponent();
-        }
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Connection.backupDB();
         }
     }
 }
