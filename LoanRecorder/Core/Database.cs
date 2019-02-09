@@ -264,5 +264,99 @@ namespace LoanRecorder.Core
         {
             return null;
         }
+
+        /*
+         * Loan Type operations with the db
+         * 
+         */
+        public static Boolean AddLoanType(LoanType loanType)
+        {
+            if (Validation.isLoanTypeValidForAdding(loanType))
+            {
+                try
+                {
+                    Connection.updateDB("insert into loan_type (type_name) values (" +
+                    "'" + loanType.Type_name + "');");
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+
+                    MessageBox.Show("Something went wrong!\n" + ex.Message, "Add Loan Type", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static LoanType GetLoanTypeByName(string name)
+        {
+            if (!name.Equals(""))
+            {
+                MySqlDataReader reader = Connection.getData("select * from loan_type where type_name='" + name + "'");
+
+                LoanType loanType = null;
+
+                while (reader.Read())
+                {
+                    loanType = new LoanType();
+
+                    loanType.Id = reader.GetInt32(0);
+                    loanType.Type_name = reader.GetString(1);
+                }
+
+                reader.Close();
+
+                return loanType;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /*
+         * Interest rate operations with the db
+         * 
+         */
+        public static double getInterestRate()
+        {
+            MySqlDataReader reader = Connection.getData("select interest_percentage from interest where interest_id=1;");
+
+            double rate = 0.0;
+
+            while (reader.Read())
+            {
+                rate = reader.GetDouble(0);
+            }
+
+            reader.Close();
+
+            return rate;
+        }
+        
+        public static Boolean ChangeRate(double rate)
+        {
+            try
+            {
+                Connection.updateDB("update interest set interest_percentage=" + rate + " where interest_id=1");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                MessageBox.Show("Something went wrong!\n" + ex.Message, "Change Rate", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return false;
+            }
+        }
     }
 }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -112,6 +113,7 @@
             this.label31 = new System.Windows.Forms.Label();
             this.mainFormErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.label32 = new System.Windows.Forms.Label();
             this.mainTabControl.SuspendLayout();
             this.dashboardTab.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -554,6 +556,7 @@
             // customerManagerTab
             // 
             this.customerManagerTab.BackColor = System.Drawing.Color.Gainsboro;
+            this.customerManagerTab.Controls.Add(this.label32);
             this.customerManagerTab.Controls.Add(this.updateCustPanel);
             this.customerManagerTab.Controls.Add(this.addCustPanel);
             this.customerManagerTab.Controls.Add(this.label1);
@@ -874,6 +877,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.customerDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.customerDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customerDataGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.customerDataGrid.Location = new System.Drawing.Point(6, 310);
             this.customerDataGrid.Name = "customerDataGrid";
             this.customerDataGrid.ReadOnly = true;
@@ -905,7 +916,7 @@
             this.ChangeInterestRatePanel.Controls.Add(this.label28);
             this.ChangeInterestRatePanel.Location = new System.Drawing.Point(6, 163);
             this.ChangeInterestRatePanel.Name = "ChangeInterestRatePanel";
-            this.ChangeInterestRatePanel.Size = new System.Drawing.Size(364, 173);
+            this.ChangeInterestRatePanel.Size = new System.Drawing.Size(376, 173);
             this.ChangeInterestRatePanel.TabIndex = 6;
             // 
             // newRateTxtBox
@@ -915,6 +926,8 @@
             this.newRateTxtBox.Name = "newRateTxtBox";
             this.newRateTxtBox.Size = new System.Drawing.Size(210, 26);
             this.newRateTxtBox.TabIndex = 11;
+            this.newRateTxtBox.Validating += new System.ComponentModel.CancelEventHandler(this.newRateTxtBox_Validating);
+            this.newRateTxtBox.Validated += new System.EventHandler(this.newRateTxtBox_Validated);
             // 
             // label29
             // 
@@ -935,12 +948,14 @@
             this.changeRateBtn.TabIndex = 9;
             this.changeRateBtn.Text = "Change Rate";
             this.changeRateBtn.UseVisualStyleBackColor = false;
+            this.changeRateBtn.Click += new System.EventHandler(this.changeRateBtn_Click);
             // 
             // curRateTxtBox
             // 
             this.curRateTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.curRateTxtBox.Location = new System.Drawing.Point(139, 47);
             this.curRateTxtBox.Name = "curRateTxtBox";
+            this.curRateTxtBox.ReadOnly = true;
             this.curRateTxtBox.Size = new System.Drawing.Size(210, 26);
             this.curRateTxtBox.TabIndex = 2;
             // 
@@ -972,7 +987,7 @@
             this.addLoanTypePanel.Controls.Add(this.label31);
             this.addLoanTypePanel.Location = new System.Drawing.Point(6, 21);
             this.addLoanTypePanel.Name = "addLoanTypePanel";
-            this.addLoanTypePanel.Size = new System.Drawing.Size(361, 117);
+            this.addLoanTypePanel.Size = new System.Drawing.Size(376, 117);
             this.addLoanTypePanel.TabIndex = 5;
             // 
             // addNewLoanTypeBtn
@@ -984,6 +999,7 @@
             this.addNewLoanTypeBtn.TabIndex = 9;
             this.addNewLoanTypeBtn.Text = "Add Type";
             this.addNewLoanTypeBtn.UseVisualStyleBackColor = false;
+            this.addNewLoanTypeBtn.Click += new System.EventHandler(this.addNewLoanTypeBtn_Click);
             // 
             // newLoanTypeTxtBox
             // 
@@ -1020,6 +1036,17 @@
             // 
             this.notifyIcon.Text = "notifyIcon1";
             this.notifyIcon.Visible = true;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label32.Location = new System.Drawing.Point(305, 294);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(205, 13);
+            this.label32.TabIndex = 11;
+            this.label32.Text = "* Click a row header to update a customer";
             // 
             // MainForm
             // 
@@ -1146,6 +1173,7 @@
         private System.Windows.Forms.ErrorProvider mainFormErrorProvider;
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.TextBox updateCustIdTxtBox;
+        private System.Windows.Forms.Label label32;
     }
 }
 

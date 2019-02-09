@@ -24,6 +24,14 @@ namespace LoanRecorder
         private void MainForm_Load(object sender, EventArgs e)
         {
             fillCustomerDataGrid();
+            fillCurrentInterestRate();
+        }
+
+        private void fillCurrentInterestRate()
+        {
+            double rate = Database.getInterestRate();
+
+            curRateTxtBox.Text = "" + rate;
         }
 
         private void fillCustomerDataGrid()
@@ -352,6 +360,74 @@ namespace LoanRecorder
         {
             searchCustomerByNameTxtBox.Text = "";
             fillCustomerDataGrid();
+        }
+
+        private void addNewLoanTypeBtn_Click(object sender, EventArgs e)
+        {
+            if (newLoanTypeTxtBox.Text.Equals(""))
+                MessageBox.Show("Type Name cannot be empty!", "Add Loan Type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                string typeName = newLoanTypeTxtBox.Text;
+
+                if (Database.GetLoanTypeByName(typeName) == null)
+                {
+                    if (Database.AddLoanType(new LoanType(typeName)))
+                    {
+                        newLoanTypeTxtBox.Text = "";
+
+                        notifyIcon.Icon = SystemIcons.Application;
+                        notifyIcon.BalloonTipText = "Loan Type Successfully added!";
+                        notifyIcon.ShowBalloonTip(200);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Loan type name already exists!", "Add Loan Type", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void changeRateBtn_Click(object sender, EventArgs e)
+        {
+            if (newRateTxtBox.Text.Equals(""))
+                MessageBox.Show("Rate cannot be empty!", "Change Rate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                string rate = newRateTxtBox.Text;
+
+                if (Database.ChangeRate(Double.Parse(rate)))
+                {
+                    newRateTxtBox.Text = "";
+                    fillCurrentInterestRate();
+
+                    notifyIcon.Icon = SystemIcons.Application;
+                    notifyIcon.BalloonTipText = "Interest Rate Successfully changed!";
+                    notifyIcon.ShowBalloonTip(200);
+                }
+            }
+        }
+
+        private void newRateTxtBox_Validating(object sender, CancelEventArgs e)
+        {
+            string errorMsg;
+
+            if (!Validation.isRate(newRateTxtBox.Text))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Invalid Rate!";
+
+                newRateTxtBox.Select(0, newRateTxtBox.Text.Length);
+
+                this.mainFormErrorProvider.SetError(newRateTxtBox, errorMsg);
+            }
+        }
+
+        private void newRateTxtBox_Validated(object sender, EventArgs e)
+        {
+            mainFormErrorProvider.SetError(newRateTxtBox, "");
+            mainFormErrorProvider.Clear();
         }
     }
 }

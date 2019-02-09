@@ -67,7 +67,18 @@ namespace LoanRecorder.Common
             else
                 return false;
         }
-        
+
+        public static Boolean isLoanTypeValidForAdding(LoanType loanType)
+        {
+            if (loanType != null)
+                if (!loanType.Type_name.Equals(""))
+                    return true;
+                else
+                    return false;
+            else
+                return false;
+        }
+
         public static Boolean isLettersOnly(String text)
         {
             return !text.Any(char.IsDigit);
@@ -88,6 +99,14 @@ namespace LoanRecorder.Common
             double dbl;
 
             return Double.TryParse(text, out dbl);
+        }
+
+        public static Boolean isRate(string text)
+        {
+            if (isDouble(text))
+                return ((Double.Parse(text) <= 100.00) && (Double.Parse(text) >= 0.00));
+            else
+                return false;
         }
 
         public static Boolean isInteger(String text)
