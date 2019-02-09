@@ -132,7 +132,7 @@ namespace LoanRecorder.Core
         {
             if (!name.Equals(""))
             {
-                MySqlDataReader reader = Connection.getData("select * from person where name='" + name + "'");
+                MySqlDataReader reader = Connection.getData("select * from person where name like '%" + name + "%' order by pid");
 
                 LinkedList<Person> persons = new LinkedList<Person>();
 
@@ -219,7 +219,7 @@ namespace LoanRecorder.Core
 
         public static LinkedList<Person> GetAllPersons()
         {
-            MySqlDataReader reader = Connection.getData("select * from person;");
+            MySqlDataReader reader = Connection.getData("select * from person order by pid;");
 
             LinkedList<Person> persons = new LinkedList<Person>();
 

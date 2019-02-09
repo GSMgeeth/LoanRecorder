@@ -39,6 +39,15 @@ namespace LoanRecorder
             customerDataGrid.Columns[0].Visible = false;
         }
 
+        private void fillCustomerDataGridUsingList(LinkedList<Person> customers)
+        {
+            var list = new BindingList<Person>(customers.ToList());
+
+            customerDataGrid.DataSource = list;
+
+            customerDataGrid.Columns[0].Visible = false;
+        }
+
         private void addCustBtn_Click(object sender, EventArgs e)
         {
             if (newCustNameTxtBox.Text.Equals(""))
@@ -327,6 +336,22 @@ namespace LoanRecorder
         {
             mainFormErrorProvider.SetError(updateCustTelTxtBox, "");
             mainFormErrorProvider.Clear();
+        }
+
+        private void searchCustomerByNameTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            string name = searchCustomerByNameTxtBox.Text;
+
+            if (name.Equals(""))
+                fillCustomerDataGrid();
+            else
+                fillCustomerDataGridUsingList(Database.GetPersonsByName(name));
+        }
+
+        private void showAllBtnCustMan_Click(object sender, EventArgs e)
+        {
+            searchCustomerByNameTxtBox.Text = "";
+            fillCustomerDataGrid();
         }
     }
 }

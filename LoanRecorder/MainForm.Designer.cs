@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -70,6 +69,7 @@
             this.loanDataGrid = new System.Windows.Forms.DataGridView();
             this.customerManagerTab = new System.Windows.Forms.TabPage();
             this.updateCustPanel = new System.Windows.Forms.Panel();
+            this.updateCustIdTxtBox = new System.Windows.Forms.TextBox();
             this.updateCustClearBtn = new System.Windows.Forms.Button();
             this.updateCustBtn = new System.Windows.Forms.Button();
             this.updateCustAddressTxtBox = new System.Windows.Forms.TextBox();
@@ -112,7 +112,6 @@
             this.label31 = new System.Windows.Forms.Label();
             this.mainFormErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.updateCustIdTxtBox = new System.Windows.Forms.TextBox();
             this.mainTabControl.SuspendLayout();
             this.dashboardTab.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -589,6 +588,15 @@
             this.updateCustPanel.Size = new System.Drawing.Size(496, 234);
             this.updateCustPanel.TabIndex = 5;
             // 
+            // updateCustIdTxtBox
+            // 
+            this.updateCustIdTxtBox.Location = new System.Drawing.Point(155, 175);
+            this.updateCustIdTxtBox.Name = "updateCustIdTxtBox";
+            this.updateCustIdTxtBox.ReadOnly = true;
+            this.updateCustIdTxtBox.Size = new System.Drawing.Size(100, 26);
+            this.updateCustIdTxtBox.TabIndex = 11;
+            this.updateCustIdTxtBox.Visible = false;
+            // 
             // updateCustClearBtn
             // 
             this.updateCustClearBtn.BackColor = System.Drawing.Color.LightCoral;
@@ -843,6 +851,7 @@
             this.searchCustomerByNameTxtBox.Name = "searchCustomerByNameTxtBox";
             this.searchCustomerByNameTxtBox.Size = new System.Drawing.Size(278, 26);
             this.searchCustomerByNameTxtBox.TabIndex = 2;
+            this.searchCustomerByNameTxtBox.TextChanged += new System.EventHandler(this.searchCustomerByNameTxtBox_TextChanged);
             // 
             // showAllBtnCustMan
             // 
@@ -854,6 +863,7 @@
             this.showAllBtnCustMan.TabIndex = 1;
             this.showAllBtnCustMan.Text = "Show All";
             this.showAllBtnCustMan.UseVisualStyleBackColor = true;
+            this.showAllBtnCustMan.Click += new System.EventHandler(this.showAllBtnCustMan_Click);
             // 
             // customerDataGrid
             // 
@@ -864,14 +874,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.customerDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.customerDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customerDataGrid.DefaultCellStyle = dataGridViewCellStyle8;
             this.customerDataGrid.Location = new System.Drawing.Point(6, 310);
             this.customerDataGrid.Name = "customerDataGrid";
             this.customerDataGrid.ReadOnly = true;
@@ -1018,15 +1020,6 @@
             // 
             this.notifyIcon.Text = "notifyIcon1";
             this.notifyIcon.Visible = true;
-            // 
-            // updateCustIdTxtBox
-            // 
-            this.updateCustIdTxtBox.Location = new System.Drawing.Point(155, 175);
-            this.updateCustIdTxtBox.Name = "updateCustIdTxtBox";
-            this.updateCustIdTxtBox.ReadOnly = true;
-            this.updateCustIdTxtBox.Size = new System.Drawing.Size(100, 26);
-            this.updateCustIdTxtBox.TabIndex = 11;
-            this.updateCustIdTxtBox.Visible = false;
             // 
             // MainForm
             // 
