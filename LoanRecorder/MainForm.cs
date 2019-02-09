@@ -25,6 +25,58 @@ namespace LoanRecorder
         {
             fillCustomerDataGrid();
             fillCurrentInterestRate();
+            fillCustomerCmbBoxes();
+            fillLoanTypeCmbBoxes();
+        }
+
+        private void fillLoanTypeCmbBoxes()
+        {
+            LinkedList<LoanType> types = Database.GetAllLoanTypes();
+
+            DataTable table = new DataTable();
+
+            table.Columns.Add("id");
+            table.Columns.Add("name");
+
+            foreach (LoanType type in types)
+            {
+                DataRow row = table.NewRow();
+
+                row["id"] = type.Id;
+                row["name"] = type.Type_name;
+
+                table.Rows.Add(row);
+            }
+
+            issueLoanTypeCmbBox.DataSource = table;
+
+            issueLoanTypeCmbBox.ValueMember = "id";
+            issueLoanTypeCmbBox.DisplayMember = "name";
+        }
+
+        private void fillCustomerCmbBoxes()
+        {
+            LinkedList<Person> persons = Database.GetAllPersons();
+
+            DataTable table = new DataTable();
+
+            table.Columns.Add("pid");
+            table.Columns.Add("name");
+
+            foreach (Person person in persons)
+            {
+                DataRow row = table.NewRow();
+
+                row["pid"] = person.Pid;
+                row["name"] = person.Name;
+
+                table.Rows.Add(row);
+            }
+
+            issueLoanCustCmbBox.DataSource = table;
+
+            issueLoanCustCmbBox.ValueMember = "pid";
+            issueLoanCustCmbBox.DisplayMember = "name";
         }
 
         private void fillCurrentInterestRate()
@@ -85,6 +137,8 @@ namespace LoanRecorder
                             notifyIcon.Icon = SystemIcons.Application;
                             notifyIcon.BalloonTipText = "Customer Successfully added!";
                             notifyIcon.ShowBalloonTip(200);
+
+                            fillCustomerCmbBoxes();
                         }
                     }
                     else
@@ -145,6 +199,8 @@ namespace LoanRecorder
                                 notifyIcon.Icon = SystemIcons.Application;
                                 notifyIcon.BalloonTipText = "Customer Successfully updated!";
                                 notifyIcon.ShowBalloonTip(200);
+
+                                fillCustomerCmbBoxes();
                             }
                         }
                     }
@@ -379,6 +435,8 @@ namespace LoanRecorder
                         notifyIcon.Icon = SystemIcons.Application;
                         notifyIcon.BalloonTipText = "Loan Type Successfully added!";
                         notifyIcon.ShowBalloonTip(200);
+
+                        fillLoanTypeCmbBoxes();
                     }
                 }
                 else

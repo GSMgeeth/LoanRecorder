@@ -321,6 +321,27 @@ namespace LoanRecorder.Core
             }
         }
 
+        public static LinkedList<LoanType> GetAllLoanTypes()
+        {
+            MySqlDataReader reader = Connection.getData("select * from loan_type order by id;");
+
+            LinkedList<LoanType> types = new LinkedList<LoanType>();
+
+            while (reader.Read())
+            {
+                LoanType loanType = new LoanType();
+
+                loanType.Id = reader.GetInt32(0);
+                loanType.Type_name = reader.GetString(1);
+
+                types.AddLast(loanType);
+            }
+
+            reader.Close();
+
+            return types;
+        }
+
         /*
          * Interest rate operations with the db
          * 
