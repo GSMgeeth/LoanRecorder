@@ -54,6 +54,29 @@ namespace LoanRecorder.Common
                 return false;
         }
 
+        public static Boolean isLoanValidForAdding(LoanDetails loan)
+        {
+            if (loan != null)
+                if (!loan.RelDate.Equals(null))
+                    if (loan.RelAmount >= 0.00)
+                        if (loan.NoOfTerms > 0)
+                            if (loan.LoanType.Id > 0)
+                                if (loan.Guarantors.Length == 2)
+                                    return true;
+                                else
+                                    return false;
+                            else
+                                return false;
+                        else
+                            return false;
+                    else
+                        return false;
+                else
+                    return false;
+            else
+                return false;
+        }
+
         public static Boolean isGuarantorValidForAddingAndUpdating(Guarantor guarantor)
         {
             if (guarantor != null)

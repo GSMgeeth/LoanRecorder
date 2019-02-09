@@ -24,9 +24,38 @@ namespace LoanRecorder
         private void MainForm_Load(object sender, EventArgs e)
         {
             fillCustomerDataGrid();
+
             fillCurrentInterestRate();
+
+            fillLoanDataGrid();
+
             fillCustomerCmbBoxes();
             fillLoanTypeCmbBoxes();
+        }
+
+        private void fillLoanDataGrid()
+        {
+            DataTable table = new DataTable();
+
+            loanDataGrid.DataSource = null;
+
+            LinkedList<LoanDetails> loans = Database.GetAllLoans();
+
+            foreach (LoanDetails loan in loans)
+            {
+                // add these to table //
+
+                // get customer name and id and nic
+                // calculate profit
+                // how many terms to go
+                // total paid amount
+                // to pay amount
+                // to pay terms
+            }
+
+            loanDataGrid.DataSource = table;
+
+            loanDataGrid.Columns[0].Visible = false;
         }
 
         private void fillLoanTypeCmbBoxes()
@@ -253,6 +282,22 @@ namespace LoanRecorder
             updateCustNicTxtBox.Text = "";
             updateCustTelTxtBox.Text = "";
             updateCustAddressTxtBox.Text = "";
+        }
+
+        private void clearIssueLoanPanel()
+        {
+            issueLoanCustNicTxtBox.Text = "";
+            issueLoanCustCmbBox.SelectedIndex = 0;
+            issueLoanRelDatePicker.Value = DateTime.Now;
+            issueLoanAmountTxtBox.Text = "";
+            issueLoanTypeCmbBox.SelectedIndex = 0;
+            issueLoanNoOfTermsTxtBox.Text = "";
+            issueLoanTermPaymentTxtBox.Text = "";
+
+            issueLoanGuarName1TxtBox.Text = "";
+            issueLoanGuarName2TxtBox.Text = "";
+            issueLoanGuarAddress1TxtBox.Text = "";
+            issueLoanGuarAddress2TxtBox.Text = "";
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -486,6 +531,76 @@ namespace LoanRecorder
         {
             mainFormErrorProvider.SetError(newRateTxtBox, "");
             mainFormErrorProvider.Clear();
+        }
+
+        private void issueLoanBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void clearIssueLoanBtn_Click(object sender, EventArgs e)
+        {
+            clearIssueLoanPanel();
+        }
+
+        private void issueLoanRelDatePicker_Validating(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void issueLoanRelDatePicker_Validated(object sender, EventArgs e)
+        {
+
+        }
+
+        private void issueLoanAmountTxtBox_Validating(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void issueLoanAmountTxtBox_Validated(object sender, EventArgs e)
+        {
+
+        }
+
+        private void issueLoanNoOfTermsTxtBox_Validating(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void issueLoanNoOfTermsTxtBox_Validated(object sender, EventArgs e)
+        {
+
+        }
+
+        private void issueLoanTermPaymentTxtBox_Validating(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void issueLoanTermPaymentTxtBox_Validated(object sender, EventArgs e)
+        {
+
+        }
+
+        private void issueLoanGuarName1TxtBox_Validating(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void issueLoanGuarName1TxtBox_Validated(object sender, EventArgs e)
+        {
+
+        }
+
+        private void issueLoanGuarName2TxtBox_Validating(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void issueLoanGuarName2TxtBox_Validated(object sender, EventArgs e)
+        {
+
         }
     }
 }

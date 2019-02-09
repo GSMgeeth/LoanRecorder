@@ -245,9 +245,28 @@ namespace LoanRecorder.Core
          * Guarantor operations with the db
          * 
          */
-        public static Boolean AddGuarantor(Guarantor guarantor)
+        public static Boolean AddGuarantors(LinkedList<Guarantor> guarantors, long pid, long loanId)
         {
-            return true;
+            try
+            {
+                Connection.updateDB("insert into guarantor (pid, loan_details_id, guar_one_name, guar_one_address, guar_two_name, guar_two_address) values (" +
+                    "" + pid + "," +
+                    "" + loanId + "," +
+                    "'" + guarantors.First.Value.Name + "'," +
+                    "'" + guarantors.First.Value.Address + "'," +
+                    "'" + guarantors.Last.Value.Name + "'," +
+                    "'" + guarantors.Last.Value.Address + "');");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                MessageBox.Show("Something went wrong!\n" + ex.Message, "Issue Loan -> Add Guarantors", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return false;
+            }
         }
 
         public static Boolean UpdateGuarantor(Guarantor guarantor)
@@ -378,6 +397,61 @@ namespace LoanRecorder.Core
 
                 return false;
             }
+        }
+
+        /*
+         * Loan operations with the db
+         * 
+         */
+        public static Boolean issueLoan(LoanDetails loan, LinkedList<Guarantor> guarantors, long pid)
+        {
+            if (Validation.isLoanValidForAdding(loan) && 
+                Validation.isGuarantorValidForAddingAndUpdating(guarantors.First.Value) && 
+                Validation.isGuarantorValidForAddingAndUpdating(guarantors.Last.Value))
+
+                if (pid > 0)
+                    try
+                    {
+                        Connection.updateDB("insert into loan_details (pid, rel_date, rel_amount, no_of_terms, amount_per_term, loan_type_id) values (" +
+                            "" + pid + "," +
+                            "'" + loan.RelDate.ToString("yyyy/MM/d") + "'," +
+                            "" + loan.RelAmount + "," +
+                            "" + loan.NoOfTerms + "," +
+                            "" + loan.AmountPerTerm + "," +
+                            "" + loan.LoanType.Id + ");");
+
+                        MySqlDataReader reader = Connection.getData("select MAX(loan_details_id) from loan_details where pid=" + pid);
+
+                        long loanId;
+
+                        if (reader.Read())
+                        {
+                            reader.Close();
+
+                            loanId = reader.GetInt32(0);
+
+                            return AddGuarantors(guarantors, pid, loanId);
+                        }
+                        else
+                            return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+
+                        MessageBox.Show("Something went wrong!\n" + ex.Message, "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        return false;
+                    }
+                else
+                    return false;
+            else
+                return false;
+        }
+
+        public static LinkedList<LoanDetails> GetAllLoans()
+        {
+            return null;
         }
     }
 }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -51,7 +51,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.issueLoanNoOfTermsTxtBox = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.issueLoanRelDatePicker = new System.Windows.Forms.DateTimePicker();
             this.issueLoanTypeCmbBox = new System.Windows.Forms.ComboBox();
             this.label17 = new System.Windows.Forms.Label();
             this.issueLoanCustCmbBox = new System.Windows.Forms.ComboBox();
@@ -248,7 +248,7 @@
             this.addLoanPanel.Controls.Add(this.label19);
             this.addLoanPanel.Controls.Add(this.issueLoanNoOfTermsTxtBox);
             this.addLoanPanel.Controls.Add(this.label18);
-            this.addLoanPanel.Controls.Add(this.dateTimePicker1);
+            this.addLoanPanel.Controls.Add(this.issueLoanRelDatePicker);
             this.addLoanPanel.Controls.Add(this.issueLoanTypeCmbBox);
             this.addLoanPanel.Controls.Add(this.label17);
             this.addLoanPanel.Controls.Add(this.issueLoanCustCmbBox);
@@ -295,6 +295,8 @@
             this.issueLoanGuarName2TxtBox.Name = "issueLoanGuarName2TxtBox";
             this.issueLoanGuarName2TxtBox.Size = new System.Drawing.Size(217, 22);
             this.issueLoanGuarName2TxtBox.TabIndex = 24;
+            this.issueLoanGuarName2TxtBox.Validating += new System.ComponentModel.CancelEventHandler(this.issueLoanGuarName2TxtBox_Validating);
+            this.issueLoanGuarName2TxtBox.Validated += new System.EventHandler(this.issueLoanGuarName2TxtBox_Validated);
             // 
             // label23
             // 
@@ -335,6 +337,8 @@
             this.issueLoanGuarName1TxtBox.Name = "issueLoanGuarName1TxtBox";
             this.issueLoanGuarName1TxtBox.Size = new System.Drawing.Size(217, 22);
             this.issueLoanGuarName1TxtBox.TabIndex = 20;
+            this.issueLoanGuarName1TxtBox.Validating += new System.ComponentModel.CancelEventHandler(this.issueLoanGuarName1TxtBox_Validating);
+            this.issueLoanGuarName1TxtBox.Validated += new System.EventHandler(this.issueLoanGuarName1TxtBox_Validated);
             // 
             // label20
             // 
@@ -354,6 +358,8 @@
             this.issueLoanTermPaymentTxtBox.Name = "issueLoanTermPaymentTxtBox";
             this.issueLoanTermPaymentTxtBox.Size = new System.Drawing.Size(65, 22);
             this.issueLoanTermPaymentTxtBox.TabIndex = 18;
+            this.issueLoanTermPaymentTxtBox.Validating += new System.ComponentModel.CancelEventHandler(this.issueLoanTermPaymentTxtBox_Validating);
+            this.issueLoanTermPaymentTxtBox.Validated += new System.EventHandler(this.issueLoanTermPaymentTxtBox_Validated);
             // 
             // label19
             // 
@@ -372,6 +378,8 @@
             this.issueLoanNoOfTermsTxtBox.Name = "issueLoanNoOfTermsTxtBox";
             this.issueLoanNoOfTermsTxtBox.Size = new System.Drawing.Size(65, 22);
             this.issueLoanNoOfTermsTxtBox.TabIndex = 16;
+            this.issueLoanNoOfTermsTxtBox.Validating += new System.ComponentModel.CancelEventHandler(this.issueLoanNoOfTermsTxtBox_Validating);
+            this.issueLoanNoOfTermsTxtBox.Validated += new System.EventHandler(this.issueLoanNoOfTermsTxtBox_Validated);
             // 
             // label18
             // 
@@ -383,14 +391,16 @@
             this.label18.TabIndex = 15;
             this.label18.Text = "No of Terms : ";
             // 
-            // dateTimePicker1
+            // issueLoanRelDatePicker
             // 
-            this.dateTimePicker1.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(111, 111);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(234, 22);
-            this.dateTimePicker1.TabIndex = 14;
+            this.issueLoanRelDatePicker.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.issueLoanRelDatePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.issueLoanRelDatePicker.Location = new System.Drawing.Point(111, 111);
+            this.issueLoanRelDatePicker.Name = "issueLoanRelDatePicker";
+            this.issueLoanRelDatePicker.Size = new System.Drawing.Size(234, 22);
+            this.issueLoanRelDatePicker.TabIndex = 14;
+            this.issueLoanRelDatePicker.Validating += new System.ComponentModel.CancelEventHandler(this.issueLoanRelDatePicker_Validating);
+            this.issueLoanRelDatePicker.Validated += new System.EventHandler(this.issueLoanRelDatePicker_Validated);
             // 
             // issueLoanTypeCmbBox
             // 
@@ -430,6 +440,7 @@
             this.clearIssueLoanBtn.TabIndex = 10;
             this.clearIssueLoanBtn.Text = "Clear";
             this.clearIssueLoanBtn.UseVisualStyleBackColor = false;
+            this.clearIssueLoanBtn.Click += new System.EventHandler(this.clearIssueLoanBtn_Click);
             // 
             // issueLoanBtn
             // 
@@ -441,6 +452,7 @@
             this.issueLoanBtn.TabIndex = 9;
             this.issueLoanBtn.Text = "Issue Loan";
             this.issueLoanBtn.UseVisualStyleBackColor = false;
+            this.issueLoanBtn.Click += new System.EventHandler(this.issueLoanBtn_Click);
             // 
             // issueLoanAmountTxtBox
             // 
@@ -449,6 +461,8 @@
             this.issueLoanAmountTxtBox.Name = "issueLoanAmountTxtBox";
             this.issueLoanAmountTxtBox.Size = new System.Drawing.Size(234, 22);
             this.issueLoanAmountTxtBox.TabIndex = 8;
+            this.issueLoanAmountTxtBox.Validating += new System.ComponentModel.CancelEventHandler(this.issueLoanAmountTxtBox_Validating);
+            this.issueLoanAmountTxtBox.Validated += new System.EventHandler(this.issueLoanAmountTxtBox_Validated);
             // 
             // label13
             // 
@@ -877,14 +891,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.customerDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.customerDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customerDataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.customerDataGrid.DefaultCellStyle = dataGridViewCellStyle13;
             this.customerDataGrid.Location = new System.Drawing.Point(6, 310);
             this.customerDataGrid.Name = "customerDataGrid";
             this.customerDataGrid.ReadOnly = true;
@@ -1140,7 +1154,7 @@
         private System.Windows.Forms.ComboBox issueLoanCustCmbBox;
         private System.Windows.Forms.ComboBox issueLoanTypeCmbBox;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker issueLoanRelDatePicker;
         private System.Windows.Forms.TextBox issueLoanGuarAddress1TxtBox;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox issueLoanGuarName1TxtBox;
