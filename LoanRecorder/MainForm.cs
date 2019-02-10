@@ -545,62 +545,132 @@ namespace LoanRecorder
 
         private void issueLoanRelDatePicker_Validating(object sender, CancelEventArgs e)
         {
+            string errorMsg;
 
+            if (!Validation.isFuture(issueLoanRelDatePicker.Value))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Date cannot be in the future!";
+
+                this.mainFormErrorProvider.SetError(issueLoanRelDatePicker, errorMsg);
+            }
         }
 
         private void issueLoanRelDatePicker_Validated(object sender, EventArgs e)
         {
-
+            mainFormErrorProvider.SetError(issueLoanRelDatePicker, "");
+            mainFormErrorProvider.Clear();
         }
 
         private void issueLoanAmountTxtBox_Validating(object sender, CancelEventArgs e)
         {
+            string errorMsg;
 
+            if (!Validation.isDouble(issueLoanAmountTxtBox.Text))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Invalid Amount!";
+
+                issueLoanAmountTxtBox.Select(0, issueLoanAmountTxtBox.Text.Length);
+
+                this.mainFormErrorProvider.SetError(issueLoanAmountTxtBox, errorMsg);
+            }
         }
 
         private void issueLoanAmountTxtBox_Validated(object sender, EventArgs e)
         {
-
+            mainFormErrorProvider.SetError(issueLoanAmountTxtBox, "");
+            mainFormErrorProvider.Clear();
         }
 
         private void issueLoanNoOfTermsTxtBox_Validating(object sender, CancelEventArgs e)
         {
+            string errorMsg;
 
+            if (!Validation.isInteger(issueLoanNoOfTermsTxtBox.Text))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Invalid No of terms!";
+
+                issueLoanNoOfTermsTxtBox.Select(0, issueLoanNoOfTermsTxtBox.Text.Length);
+
+                this.mainFormErrorProvider.SetError(issueLoanNoOfTermsTxtBox, errorMsg);
+            }
         }
 
         private void issueLoanNoOfTermsTxtBox_Validated(object sender, EventArgs e)
         {
-
+            mainFormErrorProvider.SetError(issueLoanNoOfTermsTxtBox, "");
+            mainFormErrorProvider.Clear();
         }
 
         private void issueLoanTermPaymentTxtBox_Validating(object sender, CancelEventArgs e)
         {
+            string errorMsg;
 
+            if (!Validation.isDouble(issueLoanTermPaymentTxtBox.Text))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Invalid Amount!";
+
+                issueLoanTermPaymentTxtBox.Select(0, issueLoanTermPaymentTxtBox.Text.Length);
+
+                this.mainFormErrorProvider.SetError(issueLoanTermPaymentTxtBox, errorMsg);
+            }
         }
 
         private void issueLoanTermPaymentTxtBox_Validated(object sender, EventArgs e)
         {
-
+            mainFormErrorProvider.SetError(issueLoanTermPaymentTxtBox, "");
+            mainFormErrorProvider.Clear();
         }
 
         private void issueLoanGuarName1TxtBox_Validating(object sender, CancelEventArgs e)
         {
+            string errorMsg;
 
+            if (!Validation.isLettersOnly(issueLoanGuarName1TxtBox.Text))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Invalid Name!";
+
+                issueLoanGuarName1TxtBox.Select(0, issueLoanGuarName1TxtBox.Text.Length);
+
+                this.mainFormErrorProvider.SetError(issueLoanGuarName1TxtBox, errorMsg);
+            }
         }
 
         private void issueLoanGuarName1TxtBox_Validated(object sender, EventArgs e)
         {
-
+            mainFormErrorProvider.SetError(issueLoanGuarName1TxtBox, "");
+            mainFormErrorProvider.Clear();
         }
 
         private void issueLoanGuarName2TxtBox_Validating(object sender, CancelEventArgs e)
         {
+            string errorMsg;
 
+            if (!Validation.isLettersOnly(issueLoanGuarName2TxtBox.Text))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Invalid Name!";
+
+                issueLoanGuarName2TxtBox.Select(0, issueLoanGuarName2TxtBox.Text.Length);
+
+                this.mainFormErrorProvider.SetError(issueLoanGuarName2TxtBox, errorMsg);
+            }
         }
 
         private void issueLoanGuarName2TxtBox_Validated(object sender, EventArgs e)
         {
-
+            mainFormErrorProvider.SetError(issueLoanGuarName2TxtBox, "");
+            mainFormErrorProvider.Clear();
         }
     }
 }

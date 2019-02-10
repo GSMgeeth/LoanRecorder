@@ -152,7 +152,7 @@ namespace LoanRecorder.Common
 
         public static Boolean isFuture(DateTime dateTime)
         {
-            return (dateTime > DateTime.Now);
+            return (dateTime >= DateTime.Today);
         }
     }
 }
