@@ -263,7 +263,7 @@ namespace LoanRecorder.Core
             {
                 Console.WriteLine(ex.Message);
 
-                MessageBox.Show("Something went wrong!\n" + ex.Message, "Issue Loan -> Add Guarantors", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Something went wrong!\n" + ex, "Issue Loan -> Add Guarantors", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 return false;
             }
@@ -365,7 +365,7 @@ namespace LoanRecorder.Core
          * Interest rate operations with the db
          * 
          */
-        public static double getInterestRate()
+        public static double GetInterestRate()
         {
             MySqlDataReader reader = Connection.getData("select interest_percentage from interest where interest_id=1;");
 
@@ -403,7 +403,7 @@ namespace LoanRecorder.Core
          * Loan operations with the db
          * 
          */
-        public static Boolean issueLoan(LoanDetails loan, LinkedList<Guarantor> guarantors, long pid)
+        public static Boolean IssueLoan(LoanDetails loan, LinkedList<Guarantor> guarantors, long pid)
         {
             if (Validation.isLoanValidForAdding(loan) && 
                 Validation.isGuarantorValidForAddingAndUpdating(guarantors.First.Value) && 
@@ -420,15 +420,15 @@ namespace LoanRecorder.Core
                             "" + loan.AmountPerTerm + "," +
                             "" + loan.LoanType.Id + ");");
 
-                        MySqlDataReader reader = Connection.getData("select MAX(loan_details_id) from loan_details where pid=" + pid);
+                        MySqlDataReader reader = Connection.getData("select MAX(loan_details_id) as id from loan_details where pid=" + pid);
 
                         long loanId;
 
                         if (reader.Read())
                         {
-                            reader.Close();
-
                             loanId = reader.GetInt32(0);
+
+                            reader.Close();
 
                             return AddGuarantors(guarantors, pid, loanId);
                         }
@@ -439,7 +439,7 @@ namespace LoanRecorder.Core
                     {
                         Console.WriteLine(ex.Message);
 
-                        MessageBox.Show("Something went wrong!\n" + ex.Message, "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Something went wrong!\n" + ex, "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         return false;
                     }
@@ -449,9 +449,38 @@ namespace LoanRecorder.Core
                 return false;
         }
 
-        public static LinkedList<LoanDetails> GetAllLoans()
+        public static Boolean settleLoan(LoanDetails loanDetails)
+        {
+            return false;
+        }
+
+        public static LinkedList<LoanDetails> GetLoansByCustomer(Person person)
         {
             return null;
+        }
+
+        public static LinkedList<LoanDetails> GetAllLoans()
+        {
+            MySqlDataReader reader = Connection.getData("select * from loan_details order by settled asc;");
+
+            LinkedList<LoanDetails> loans = new LinkedList<LoanDetails>();
+
+            while (reader.Read())
+            {
+                LoanDetails loan = new LoanDetails();
+
+                loan.RelDate = reader.GetDateTime("rel_date");
+                loan.RelAmount = reader.GetDouble("rel_amount");
+                loan.NoOfTerms = reader.GetInt16("no_of_terms");
+                loan.AmountPerTerm = reader.GetDouble("amount_per_term");
+                loan.LoanType = new LoanType(reader.GetInt32("loan_type_id"));
+
+                loans.AddLast(loan);
+            }
+
+            reader.Close();
+
+            return loans;
         }
     }
 }

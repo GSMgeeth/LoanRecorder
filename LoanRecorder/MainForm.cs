@@ -53,9 +53,11 @@ namespace LoanRecorder
                 // to pay terms
             }
 
-            loanDataGrid.DataSource = table;
+            var list = new BindingList<LoanDetails>(loans.ToList());
 
-            loanDataGrid.Columns[0].Visible = false;
+            loanDataGrid.DataSource = list;
+
+            // loanDataGrid.Columns[0].Visible = false;
         }
 
         private void fillLoanTypeCmbBoxes()
@@ -110,7 +112,7 @@ namespace LoanRecorder
 
         private void fillCurrentInterestRate()
         {
-            double rate = Database.getInterestRate();
+            double rate = Database.GetInterestRate();
 
             curRateTxtBox.Text = "" + rate;
         }
@@ -535,7 +537,50 @@ namespace LoanRecorder
 
         private void issueLoanBtn_Click(object sender, EventArgs e)
         {
+            Object custObj = issueLoanCustCmbBox.SelectedItem;
+            Object loanTypeObj = issueLoanTypeCmbBox.SelectedItem;
+            DateTime dt = issueLoanRelDatePicker.Value;
 
+            if (custObj == null)
+                MessageBox.Show("Select a Customer!", "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (loanTypeObj == null)
+                MessageBox.Show("Select a Loan Type!", "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (Validation.isFuture(dt))
+                MessageBox.Show("Select a valid date!", "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (issueLoanAmountTxtBox.Text.Equals(""))
+                MessageBox.Show("Loan Amount cannot be empty!", "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (issueLoanNoOfTermsTxtBox.Text.Equals(""))
+                MessageBox.Show("No of terms cannot be empty!", "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (issueLoanTermPaymentTxtBox.Text.Equals(""))
+                MessageBox.Show("Loan Term amount cannot be empty!", "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                long pid = Int32.Parse(issueLoanCustCmbBox.SelectedValue.ToString());
+                int typeId = Int32.Parse(issueLoanTypeCmbBox.SelectedValue.ToString());
+                DateTime relDate = issueLoanRelDatePicker.Value;
+                double amount = Double.Parse(issueLoanAmountTxtBox.Text);
+                int noOfTerms = Int32.Parse(issueLoanNoOfTermsTxtBox.Text);
+                double termPayment = Double.Parse(issueLoanTermPaymentTxtBox.Text);
+                string guar1Name = issueLoanGuarName1TxtBox.Text;
+                string guar2Name = issueLoanGuarName2TxtBox.Text;
+                string guar1Add = issueLoanGuarAddress1TxtBox.Text;
+                string guar2Add = issueLoanGuarAddress2TxtBox.Text;
+
+                LinkedList<Guarantor> guarantors = new LinkedList<Guarantor>();
+
+                guarantors.AddLast(new Guarantor(guar1Name, guar1Add));
+                guarantors.AddLast(new Guarantor(guar2Name, guar2Add));
+
+                if (Database.IssueLoan(new LoanDetails(relDate, amount, noOfTerms, termPayment, new LoanType(typeId)), guarantors, pid))
+                {
+                    clearIssueLoanPanel();
+                    fillLoanDataGrid();
+
+                    notifyIcon.Icon = SystemIcons.Application;
+                    notifyIcon.BalloonTipText = "Loan Successfully issued!";
+                    notifyIcon.ShowBalloonTip(200);
+                }
+            }
         }
 
         private void clearIssueLoanBtn_Click(object sender, EventArgs e)
@@ -547,7 +592,7 @@ namespace LoanRecorder
         {
             string errorMsg;
 
-            if (!Validation.isFuture(issueLoanRelDatePicker.Value))
+            if (Validation.isFuture(issueLoanRelDatePicker.Value))
             {
                 e.Cancel = true;
 
@@ -671,6 +716,24 @@ namespace LoanRecorder
         {
             mainFormErrorProvider.SetError(issueLoanGuarName2TxtBox, "");
             mainFormErrorProvider.Clear();
+        }
+
+        private void issueLoanCustCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (issueLoanCustCmbBox.SelectedItem != null)
+            {
+                long custId;
+
+                if (long.TryParse(issueLoanCustCmbBox.SelectedValue.ToString(), out custId))
+                {
+                    Person person = Database.GetPersonById(Int32.Parse(issueLoanCustCmbBox.SelectedValue.ToString()));
+
+                    if (person != null)
+                    {
+                        issueLoanCustNicTxtBox.Text = person.Nic;
+                    }
+                }
+            }
         }
     }
 }

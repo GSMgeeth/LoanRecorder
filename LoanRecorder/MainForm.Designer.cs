@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -69,6 +68,7 @@
             this.loanShowAllBtn = new System.Windows.Forms.Button();
             this.loanDataGrid = new System.Windows.Forms.DataGridView();
             this.customerManagerTab = new System.Windows.Forms.TabPage();
+            this.label32 = new System.Windows.Forms.Label();
             this.updateCustPanel = new System.Windows.Forms.Panel();
             this.updateCustIdTxtBox = new System.Windows.Forms.TextBox();
             this.updateCustClearBtn = new System.Windows.Forms.Button();
@@ -113,7 +113,6 @@
             this.label31 = new System.Windows.Forms.Label();
             this.mainFormErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.label32 = new System.Windows.Forms.Label();
             this.mainTabControl.SuspendLayout();
             this.dashboardTab.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -429,6 +428,7 @@
             this.issueLoanCustCmbBox.Name = "issueLoanCustCmbBox";
             this.issueLoanCustCmbBox.Size = new System.Drawing.Size(234, 24);
             this.issueLoanCustCmbBox.TabIndex = 11;
+            this.issueLoanCustCmbBox.SelectedIndexChanged += new System.EventHandler(this.issueLoanCustCmbBox_SelectedIndexChanged);
             // 
             // clearIssueLoanBtn
             // 
@@ -583,6 +583,17 @@
             this.customerManagerTab.Size = new System.Drawing.Size(1032, 624);
             this.customerManagerTab.TabIndex = 2;
             this.customerManagerTab.Text = "Customer Manager";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label32.Location = new System.Drawing.Point(305, 294);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(205, 13);
+            this.label32.TabIndex = 11;
+            this.label32.Text = "* Click a row header to update a customer";
             // 
             // updateCustPanel
             // 
@@ -891,14 +902,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.customerDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.customerDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customerDataGrid.DefaultCellStyle = dataGridViewCellStyle13;
             this.customerDataGrid.Location = new System.Drawing.Point(6, 310);
             this.customerDataGrid.Name = "customerDataGrid";
             this.customerDataGrid.ReadOnly = true;
@@ -1050,17 +1053,6 @@
             // 
             this.notifyIcon.Text = "notifyIcon1";
             this.notifyIcon.Visible = true;
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label32.Location = new System.Drawing.Point(305, 294);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(205, 13);
-            this.label32.TabIndex = 11;
-            this.label32.Text = "* Click a row header to update a customer";
             // 
             // MainForm
             // 
