@@ -31,6 +31,20 @@ namespace LoanRecorder
 
             fillCustomerCmbBoxes();
             fillLoanTypeCmbBoxes();
+
+            setInterestRate();
+        }
+
+        private void setInterestRate()
+        {
+            double rate = Database.GetInterestRate();
+
+            if (rate >= 0.00)
+            {
+                Global.INTEREST = rate;
+
+                rateTxtBox.Text = "" + rate;
+            }
         }
 
         private void fillLoanDataGrid()
@@ -293,8 +307,12 @@ namespace LoanRecorder
             issueLoanRelDatePicker.Value = DateTime.Now;
             issueLoanAmountTxtBox.Text = "";
             issueLoanTypeCmbBox.SelectedIndex = 0;
+
             issueLoanNoOfTermsTxtBox.Text = "";
             issueLoanTermPaymentTxtBox.Text = "";
+
+            issueLoanPayableTxtBox.Text = "";
+            issueLoanProfitTxtBox.Text = "";
 
             issueLoanGuarName1TxtBox.Text = "";
             issueLoanGuarName2TxtBox.Text = "";
@@ -732,6 +750,45 @@ namespace LoanRecorder
                     {
                         issueLoanCustNicTxtBox.Text = person.Nic;
                     }
+                }
+            }
+        }
+
+        private void issueLoanAmountTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            double amount = 0.0;
+
+            if (double.TryParse(issueLoanAmountTxtBox.Text, out amount))
+            {
+                double profit = 0.1 * amount;
+
+                issueLoanPayableTxtBox.Text = "" + (amount + profit);
+                issueLoanProfitTxtBox.Text = "" + profit;
+            }
+            else
+            {
+                issueLoanPayableTxtBox.Text = "";
+                issueLoanProfitTxtBox.Text = "";
+            }
+        }
+
+        private void issueLoanNoOfTermsTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            int noOfTerms = 0;
+            double amount = 0.0;
+
+            if (double.TryParse(issueLoanAmountTxtBox.Text, out amount))
+            {
+                if (int.TryParse(issueLoanNoOfTermsTxtBox.Text, out noOfTerms))
+                {
+                    double total = 0.1 * amount + amount;
+                    double amountPerTerm = total / noOfTerms;
+
+                    issueLoanTermPaymentTxtBox.Text = "" + amountPerTerm;
+                }
+                else
+                {
+                    issueLoanTermPaymentTxtBox.Text = "";
                 }
             }
         }

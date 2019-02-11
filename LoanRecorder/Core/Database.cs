@@ -482,5 +482,21 @@ namespace LoanRecorder.Core
 
             return loans;
         }
+
+        public static double GetRate()
+        {
+            MySqlDataReader reader = Connection.getData("select interest_percentage from interest where interest_id=1");
+
+            while (reader.Read())
+            {
+                double rate = reader.GetDouble(0);
+                reader.Close();
+                return rate;
+            }
+
+            reader.Close();
+
+            return -23.0;
+        }
     }
 }
