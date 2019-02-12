@@ -1,6 +1,7 @@
 ﻿using LoanRecorder.Common;
 using LoanRecorder.Core;
 using LoanRecorder.Role;
+using LoanRecorder.Role.Views;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -47,31 +48,114 @@ namespace LoanRecorder
             }
         }
 
+        private void fillLoanDataGridUsingList(LinkedList<LoanDataGridView> list)
+        {
+            DataTable table = new DataTable();
+
+            loanDataGrid.DataSource = null;
+
+            LinkedList<LoanDataGridView> loans = list;
+
+            table.Columns.Add("loan Details Id", typeof(long));
+            table.Columns.Add("pid", typeof(long));
+            table.Columns.Add("loan Type Id", typeof(int));
+            table.Columns.Add("Customer", typeof(string));
+            table.Columns.Add("NIC", typeof(string));
+            table.Columns.Add("Type", typeof(string));
+            table.Columns.Add("Rel. Date", typeof(DateTime));
+            table.Columns.Add("Rel. Amount", typeof(double));
+            table.Columns.Add("No of Terms", typeof(int));
+            table.Columns.Add("Paid Terms", typeof(int));
+            table.Columns.Add("Paid Amount", typeof(double));
+            table.Columns.Add("To Pay", typeof(double));
+            table.Columns.Add("Profit", typeof(double));
+
+            foreach (LoanDataGridView loan in loans)
+            {
+                DataRow row = table.NewRow();
+
+                Console.WriteLine("\n\n");
+                Console.WriteLine(loan.Name);
+                Console.WriteLine("\n\n");
+
+                row[0] = loan.LoanDetailsId;
+                row[1] = loan.Pid;
+                row[2] = loan.LoanTypeId;
+                row[3] = loan.Name;
+                row[4] = loan.Nic;
+                row[5] = loan.LoanTypeName;
+                row[6] = loan.RelDate;
+                row[7] = loan.RelAmount;
+                row[8] = loan.NoOfTerms;
+                row[9] = loan.PaidCount;
+                row[10] = loan.PaidAmount;
+                row[11] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.PaidAmount;
+                row[12] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.RelAmount;
+
+                table.Rows.Add(row);
+            }
+            
+            loanDataGrid.DataSource = table;
+
+            loanDataGrid.Columns[0].Visible = false;
+            loanDataGrid.Columns[1].Visible = false;
+            loanDataGrid.Columns[2].Visible = false;
+        }
+
         private void fillLoanDataGrid()
         {
             DataTable table = new DataTable();
 
             loanDataGrid.DataSource = null;
 
-            LinkedList<LoanDetails> loans = Database.GetAllLoans();
+            LinkedList<LoanDataGridView> loans = Database.GetAllLoanDetails();
 
-            foreach (LoanDetails loan in loans)
+            table.Columns.Add("loan Details Id", typeof(long));
+            table.Columns.Add("pid", typeof(long));
+            table.Columns.Add("loan Type Id", typeof(int));
+            table.Columns.Add("Customer", typeof(string));
+            table.Columns.Add("NIC", typeof(string));
+            table.Columns.Add("Type", typeof(string));
+            table.Columns.Add("Rel. Date", typeof(DateTime));
+            table.Columns.Add("Rel. Amount", typeof(double));
+            table.Columns.Add("No of Terms", typeof(int));
+            table.Columns.Add("Paid Terms", typeof(int));
+            table.Columns.Add("Paid Amount", typeof(double));
+            table.Columns.Add("To Pay", typeof(double));
+            table.Columns.Add("Profit", typeof(double));
+
+            foreach (LoanDataGridView loan in loans)
             {
-                // add these to table //
+                DataRow row = table.NewRow();
 
-                // get customer name and id and nic
-                // calculate profit
-                // how many terms to go
-                // total paid amount
-                // to pay amount
-                // to pay terms
+                Console.WriteLine("\n\n");
+                Console.WriteLine(loan.Name);
+                Console.WriteLine("\n\n");
+
+                row[0] = loan.LoanDetailsId;
+                row[1] = loan.Pid;
+                row[2] = loan.LoanTypeId;
+                row[3] = loan.Name;
+                row[4] = loan.Nic;
+                row[5] = loan.LoanTypeName;
+                row[6] = loan.RelDate;
+                row[7] = loan.RelAmount;
+                row[8] = loan.NoOfTerms;
+                row[9] = loan.PaidCount;
+                row[10] = loan.PaidAmount;
+                row[11] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.PaidAmount;
+                row[12] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.RelAmount;
+
+                table.Rows.Add(row);
             }
 
-            var list = new BindingList<LoanDetails>(loans.ToList());
+            // var list = new BindingList<LoanDetails>(loans.ToList());
 
-            loanDataGrid.DataSource = list;
+            loanDataGrid.DataSource = table;
 
-            // loanDataGrid.Columns[0].Visible = false;
+            loanDataGrid.Columns[0].Visible = false;
+            loanDataGrid.Columns[1].Visible = false;
+            loanDataGrid.Columns[2].Visible = false;
         }
 
         private void fillLoanTypeCmbBoxes()
@@ -129,6 +213,8 @@ namespace LoanRecorder
             double rate = Database.GetInterestRate();
 
             curRateTxtBox.Text = "" + rate;
+
+            setInterestRate();
         }
 
         private void fillCustomerDataGrid()
@@ -791,6 +877,23 @@ namespace LoanRecorder
                     issueLoanTermPaymentTxtBox.Text = "";
                 }
             }
+        }
+
+        private void searchLoanByCustTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            string name = searchLoanByCustTxtBox.Text;
+
+            if (name.Equals(""))
+                fillLoanDataGrid();
+            else
+                fillLoanDataGridUsingList(Database.GetAllLoanDetailsByCutomerName(name));
+        }
+
+        private void loanShowAllBtn_Click(object sender, EventArgs e)
+        {
+            searchLoanByCustTxtBox.Text = "";
+
+            fillLoanDataGrid();
         }
     }
 }

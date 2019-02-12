@@ -1,5 +1,6 @@
 ﻿using LoanRecorder.Common;
 using LoanRecorder.Role;
+using LoanRecorder.Role.Views;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -474,6 +475,74 @@ namespace LoanRecorder.Core
                 loan.NoOfTerms = reader.GetInt16("no_of_terms");
                 loan.AmountPerTerm = reader.GetDouble("amount_per_term");
                 loan.LoanType = new LoanType(reader.GetInt32("loan_type_id"));
+
+                loans.AddLast(loan);
+            }
+
+            reader.Close();
+
+            return loans;
+        }
+
+        public static LinkedList<LoanDataGridView> GetAllLoanDetails()
+        {
+            MySqlDataReader reader = Connection.getData("select p.pid, ld.loan_details_id, lt.id, p.name, p.nic, ld.rel_date, " +
+                        "lt.type_name, ld.rel_amount, ld.no_of_terms, count(pr.payment_id) as payment_counts, IFNULL(sum(pr.amount), 0.0) as paid, " +
+                        "ld.settled from loan_details ld inner join person p on ld.pid=p.pid left join payment_records pr " +
+                        "ON pr.loan_details_id=ld.loan_details_id inner join loan_type lt on lt.id=ld.loan_type_id " +
+                        "group by ld.loan_details_id order by settled asc;");
+
+            LinkedList<LoanDataGridView> loans = new LinkedList<LoanDataGridView>();
+
+            while (reader.Read())
+            {
+                LoanDataGridView loan = new LoanDataGridView();
+
+                loan.Pid = reader.GetInt32(0);
+                loan.LoanDetailsId = reader.GetInt32(1);
+                loan.LoanTypeId = reader.GetInt32(2);
+                loan.Name = reader.GetString(3);
+                loan.Nic = reader.GetString(4);
+                loan.RelDate = reader.GetDateTime(5);
+                loan.LoanTypeName = reader.GetString(6);
+                loan.RelAmount = reader.GetDouble(7);
+                loan.NoOfTerms = reader.GetInt32(8);
+                loan.PaidCount = reader.GetInt32(9);
+                loan.PaidAmount = reader.GetDouble(10);
+
+                loans.AddLast(loan);
+            }
+
+            reader.Close();
+
+            return loans;
+        }
+
+        public static LinkedList<LoanDataGridView> GetAllLoanDetailsByCutomerName(string name)
+        {
+            MySqlDataReader reader = Connection.getData("select p.pid, ld.loan_details_id, lt.id, p.name, p.nic, ld.rel_date, " +
+                        "lt.type_name, ld.rel_amount, ld.no_of_terms, count(pr.payment_id) as payment_counts, IFNULL(sum(pr.amount), 0.0) as paid, " +
+                        "ld.settled from loan_details ld inner join person p on ld.pid=p.pid left join payment_records pr " +
+                        "ON pr.loan_details_id=ld.loan_details_id inner join loan_type lt on lt.id=ld.loan_type_id " +
+                        "where p.name like '%" + name + "%' group by ld.loan_details_id order by settled asc;");
+
+            LinkedList<LoanDataGridView> loans = new LinkedList<LoanDataGridView>();
+
+            while (reader.Read())
+            {
+                LoanDataGridView loan = new LoanDataGridView();
+
+                loan.Pid = reader.GetInt32(0);
+                loan.LoanDetailsId = reader.GetInt32(1);
+                loan.LoanTypeId = reader.GetInt32(2);
+                loan.Name = reader.GetString(3);
+                loan.Nic = reader.GetString(4);
+                loan.RelDate = reader.GetDateTime(5);
+                loan.LoanTypeName = reader.GetString(6);
+                loan.RelAmount = reader.GetDouble(7);
+                loan.NoOfTerms = reader.GetInt32(8);
+                loan.PaidCount = reader.GetInt32(9);
+                loan.PaidAmount = reader.GetDouble(10);
 
                 loans.AddLast(loan);
             }

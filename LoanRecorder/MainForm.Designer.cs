@@ -29,10 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -42,6 +40,12 @@
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.addLoanPanel = new System.Windows.Forms.Panel();
+            this.issueLoanPayableTxtBox = new System.Windows.Forms.TextBox();
+            this.label35 = new System.Windows.Forms.Label();
+            this.issueLoanProfitTxtBox = new System.Windows.Forms.TextBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.rateTxtBox = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
             this.issueLoanGuarAddress2TxtBox = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.issueLoanGuarName2TxtBox = new System.Windows.Forms.TextBox();
@@ -117,12 +121,6 @@
             this.label31 = new System.Windows.Forms.Label();
             this.mainFormErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.rateTxtBox = new System.Windows.Forms.TextBox();
-            this.label33 = new System.Windows.Forms.Label();
-            this.issueLoanProfitTxtBox = new System.Windows.Forms.TextBox();
-            this.label34 = new System.Windows.Forms.Label();
-            this.issueLoanPayableTxtBox = new System.Windows.Forms.TextBox();
-            this.label35 = new System.Windows.Forms.Label();
             this.mainTabControl.SuspendLayout();
             this.dashboardTab.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -281,6 +279,70 @@
             this.addLoanPanel.Name = "addLoanPanel";
             this.addLoanPanel.Size = new System.Drawing.Size(1020, 234);
             this.addLoanPanel.TabIndex = 8;
+            // 
+            // issueLoanPayableTxtBox
+            // 
+            this.issueLoanPayableTxtBox.BackColor = System.Drawing.Color.MistyRose;
+            this.issueLoanPayableTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.issueLoanPayableTxtBox.Location = new System.Drawing.Point(474, 143);
+            this.issueLoanPayableTxtBox.Name = "issueLoanPayableTxtBox";
+            this.issueLoanPayableTxtBox.ReadOnly = true;
+            this.issueLoanPayableTxtBox.Size = new System.Drawing.Size(136, 22);
+            this.issueLoanPayableTxtBox.TabIndex = 32;
+            this.issueLoanPayableTxtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label35.ForeColor = System.Drawing.Color.Maroon;
+            this.label35.Location = new System.Drawing.Point(353, 143);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(107, 20);
+            this.label35.TabIndex = 31;
+            this.label35.Text = "To Pay (Rs.) : ";
+            // 
+            // issueLoanProfitTxtBox
+            // 
+            this.issueLoanProfitTxtBox.BackColor = System.Drawing.Color.Salmon;
+            this.issueLoanProfitTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.issueLoanProfitTxtBox.Location = new System.Drawing.Point(476, 177);
+            this.issueLoanProfitTxtBox.Name = "issueLoanProfitTxtBox";
+            this.issueLoanProfitTxtBox.ReadOnly = true;
+            this.issueLoanProfitTxtBox.Size = new System.Drawing.Size(134, 22);
+            this.issueLoanProfitTxtBox.TabIndex = 30;
+            this.issueLoanProfitTxtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label34.ForeColor = System.Drawing.Color.Red;
+            this.label34.Location = new System.Drawing.Point(351, 177);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(96, 20);
+            this.label34.TabIndex = 29;
+            this.label34.Text = "Profit (Rs.) : ";
+            // 
+            // rateTxtBox
+            // 
+            this.rateTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rateTxtBox.Location = new System.Drawing.Point(534, 113);
+            this.rateTxtBox.Name = "rateTxtBox";
+            this.rateTxtBox.ReadOnly = true;
+            this.rateTxtBox.Size = new System.Drawing.Size(76, 22);
+            this.rateTxtBox.TabIndex = 28;
+            this.rateTxtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label33.Location = new System.Drawing.Point(353, 113);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(139, 20);
+            this.label33.TabIndex = 27;
+            this.label33.Text = "Interest Rate(%) : ";
             // 
             // issueLoanGuarAddress2TxtBox
             // 
@@ -562,6 +624,7 @@
             this.searchLoanByCustTxtBox.Name = "searchLoanByCustTxtBox";
             this.searchLoanByCustTxtBox.Size = new System.Drawing.Size(278, 26);
             this.searchLoanByCustTxtBox.TabIndex = 6;
+            this.searchLoanByCustTxtBox.TextChanged += new System.EventHandler(this.searchLoanByCustTxtBox_TextChanged);
             // 
             // loanShowAllBtn
             // 
@@ -573,6 +636,7 @@
             this.loanShowAllBtn.TabIndex = 5;
             this.loanShowAllBtn.Text = "Show All";
             this.loanShowAllBtn.UseVisualStyleBackColor = true;
+            this.loanShowAllBtn.Click += new System.EventHandler(this.loanShowAllBtn_Click);
             // 
             // loanDataGrid
             // 
@@ -584,23 +648,15 @@
             this.loanDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.loanDataGrid.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.loanDataGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Tan;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.loanDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.MediumTurquoise;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.DarkGreen;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.loanDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.loanDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.loanDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.loanDataGrid.Location = new System.Drawing.Point(6, 310);
             this.loanDataGrid.Name = "loanDataGrid";
             this.loanDataGrid.ReadOnly = true;
@@ -943,23 +999,15 @@
             this.customerDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.customerDataGrid.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.customerDataGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Tan;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.customerDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.MediumTurquoise;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.DarkGreen;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.customerDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.customerDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.customerDataGrid.DefaultCellStyle = dataGridViewCellStyle4;
             this.customerDataGrid.Location = new System.Drawing.Point(6, 310);
             this.customerDataGrid.Name = "customerDataGrid";
             this.customerDataGrid.ReadOnly = true;
@@ -1111,70 +1159,6 @@
             // 
             this.notifyIcon.Text = "notifyIcon1";
             this.notifyIcon.Visible = true;
-            // 
-            // rateTxtBox
-            // 
-            this.rateTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rateTxtBox.Location = new System.Drawing.Point(534, 113);
-            this.rateTxtBox.Name = "rateTxtBox";
-            this.rateTxtBox.ReadOnly = true;
-            this.rateTxtBox.Size = new System.Drawing.Size(76, 22);
-            this.rateTxtBox.TabIndex = 28;
-            this.rateTxtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label33.Location = new System.Drawing.Point(353, 113);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(139, 20);
-            this.label33.TabIndex = 27;
-            this.label33.Text = "Interest Rate(%) : ";
-            // 
-            // issueLoanProfitTxtBox
-            // 
-            this.issueLoanProfitTxtBox.BackColor = System.Drawing.Color.Salmon;
-            this.issueLoanProfitTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.issueLoanProfitTxtBox.Location = new System.Drawing.Point(476, 177);
-            this.issueLoanProfitTxtBox.Name = "issueLoanProfitTxtBox";
-            this.issueLoanProfitTxtBox.ReadOnly = true;
-            this.issueLoanProfitTxtBox.Size = new System.Drawing.Size(134, 22);
-            this.issueLoanProfitTxtBox.TabIndex = 30;
-            this.issueLoanProfitTxtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label34.ForeColor = System.Drawing.Color.Red;
-            this.label34.Location = new System.Drawing.Point(351, 177);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(96, 20);
-            this.label34.TabIndex = 29;
-            this.label34.Text = "Profit (Rs.) : ";
-            // 
-            // issueLoanPayableTxtBox
-            // 
-            this.issueLoanPayableTxtBox.BackColor = System.Drawing.Color.MistyRose;
-            this.issueLoanPayableTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.issueLoanPayableTxtBox.Location = new System.Drawing.Point(474, 143);
-            this.issueLoanPayableTxtBox.Name = "issueLoanPayableTxtBox";
-            this.issueLoanPayableTxtBox.ReadOnly = true;
-            this.issueLoanPayableTxtBox.Size = new System.Drawing.Size(136, 22);
-            this.issueLoanPayableTxtBox.TabIndex = 32;
-            this.issueLoanPayableTxtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label35.ForeColor = System.Drawing.Color.Maroon;
-            this.label35.Location = new System.Drawing.Point(353, 143);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(115, 20);
-            this.label35.TabIndex = 31;
-            this.label35.Text = "Payable (Rs.) : ";
             // 
             // MainForm
             // 
