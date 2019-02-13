@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoanRecorder.Role
 {
-    class Person
+    public class Person
     {
         private long pid;
         private string name;
@@ -24,6 +24,13 @@ namespace LoanRecorder.Role
         public Person(LinkedList<LoanDetails> loanDetails)
         {
             LoanDetails = loanDetails;
+        }
+
+        public Person(long pid, string name, string nic)
+        {
+            Pid = pid;
+            Name = name;
+            Nic = nic;
         }
 
         public Person(long pid, LinkedList<LoanDetails> loanDetails) : this(pid)

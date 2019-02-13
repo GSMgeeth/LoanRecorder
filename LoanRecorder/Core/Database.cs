@@ -487,7 +487,7 @@ namespace LoanRecorder.Core
         public static LinkedList<LoanDataGridView> GetAllLoanDetails()
         {
             MySqlDataReader reader = Connection.getData("select p.pid, ld.loan_details_id, lt.id, p.name, p.nic, ld.rel_date, " +
-                        "lt.type_name, ld.rel_amount, ld.no_of_terms, count(pr.payment_id) as payment_counts, IFNULL(sum(pr.amount), 0.0) as paid, " +
+                        "lt.type_name, ld.rel_amount, ld.no_of_terms, count(pr.payment_id) as payment_counts, IFNULL(sum(pr.amount), 0.0) as paid, ld.amount_per_term, " +
                         "ld.settled from loan_details ld inner join person p on ld.pid=p.pid left join payment_records pr " +
                         "ON pr.loan_details_id=ld.loan_details_id inner join loan_type lt on lt.id=ld.loan_type_id " +
                         "group by ld.loan_details_id order by settled asc;");
@@ -509,6 +509,7 @@ namespace LoanRecorder.Core
                 loan.NoOfTerms = reader.GetInt32(8);
                 loan.PaidCount = reader.GetInt32(9);
                 loan.PaidAmount = reader.GetDouble(10);
+                loan.AmountPerTerm = reader.GetDouble(11);
 
                 loans.AddLast(loan);
             }
@@ -521,7 +522,7 @@ namespace LoanRecorder.Core
         public static LinkedList<LoanDataGridView> GetAllLoanDetailsByCutomerName(string name)
         {
             MySqlDataReader reader = Connection.getData("select p.pid, ld.loan_details_id, lt.id, p.name, p.nic, ld.rel_date, " +
-                        "lt.type_name, ld.rel_amount, ld.no_of_terms, count(pr.payment_id) as payment_counts, IFNULL(sum(pr.amount), 0.0) as paid, " +
+                        "lt.type_name, ld.rel_amount, ld.no_of_terms, count(pr.payment_id) as payment_counts, IFNULL(sum(pr.amount), 0.0) as paid, ld.amount_per_term, " +
                         "ld.settled from loan_details ld inner join person p on ld.pid=p.pid left join payment_records pr " +
                         "ON pr.loan_details_id=ld.loan_details_id inner join loan_type lt on lt.id=ld.loan_type_id " +
                         "where p.name like '%" + name + "%' group by ld.loan_details_id order by settled asc;");
@@ -543,6 +544,7 @@ namespace LoanRecorder.Core
                 loan.NoOfTerms = reader.GetInt32(8);
                 loan.PaidCount = reader.GetInt32(9);
                 loan.PaidAmount = reader.GetDouble(10);
+                loan.AmountPerTerm = reader.GetDouble(11);
 
                 loans.AddLast(loan);
             }

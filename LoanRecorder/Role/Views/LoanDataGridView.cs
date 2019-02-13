@@ -17,6 +17,7 @@ namespace LoanRecorder.Role.Views
         private DateTime relDate;
         private double relAmount;
         private int noOfTerms;
+        private double amountPerTerm;
         private int paidCount;
         private double paidAmount;
         private double toPay;
@@ -26,7 +27,7 @@ namespace LoanRecorder.Role.Views
         {
         }
 
-        public LoanDataGridView(long pid, long loanDetailsId, int loanTypeId, string name, string nic, string loanTypeName, DateTime relDate, double relAmount, int noOfTerms, int paidCount, double paidAmount, double toPay, double profit)
+        public LoanDataGridView(double amountPerTerm, long pid, long loanDetailsId, int loanTypeId, string name, string nic, string loanTypeName, DateTime relDate, double relAmount, int noOfTerms, int paidCount, double paidAmount, double toPay, double profit)
         {
             Pid = pid;
             LoanDetailsId = loanDetailsId;
@@ -41,6 +42,7 @@ namespace LoanRecorder.Role.Views
             PaidAmount = paidAmount;
             ToPay = toPay;
             Profit = profit;
+            AmountPerTerm = amountPerTerm;
         }
 
         public long Pid { get => pid; set => pid = value; }
@@ -56,5 +58,6 @@ namespace LoanRecorder.Role.Views
         public double PaidAmount { get => paidAmount; set => paidAmount = value; }
         public double ToPay { get => toPay; set => toPay = value; }
         public double Profit { get => profit; set => profit = value; }
+        public double AmountPerTerm { get => amountPerTerm; set => amountPerTerm = value; }
     }
 }

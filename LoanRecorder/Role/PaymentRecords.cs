@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoanRecorder.Role
 {
-    class PaymentRecords
+    public class PaymentRecords
     {
         private long paymentId;
         private double amount;

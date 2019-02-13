@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoanRecorder.Role
 {
-    class Guarantor
+    public class Guarantor
     {
         private string name;
         private string address;

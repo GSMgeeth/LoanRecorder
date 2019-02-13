@@ -119,6 +119,7 @@ namespace LoanRecorder
             table.Columns.Add("Rel. Date", typeof(DateTime));
             table.Columns.Add("Rel. Amount", typeof(double));
             table.Columns.Add("No of Terms", typeof(int));
+            table.Columns.Add("Amount Per Term", typeof(double));
             table.Columns.Add("Paid Terms", typeof(int));
             table.Columns.Add("Paid Amount", typeof(double));
             table.Columns.Add("To Pay", typeof(double));
@@ -141,10 +142,12 @@ namespace LoanRecorder
                 row[6] = loan.RelDate;
                 row[7] = loan.RelAmount;
                 row[8] = loan.NoOfTerms;
-                row[9] = loan.PaidCount;
-                row[10] = loan.PaidAmount;
-                row[11] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.PaidAmount;
-                row[12] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.RelAmount;
+                row[9] = loan.AmountPerTerm;
+                row[10] = loan.PaidCount;
+                row[11] = loan.PaidAmount;
+                row[12] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.PaidAmount;
+                row[13] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.RelAmount;
+                
 
                 table.Rows.Add(row);
             }
@@ -894,6 +897,34 @@ namespace LoanRecorder
             searchLoanByCustTxtBox.Text = "";
 
             fillLoanDataGrid();
+        }
+
+        private void loanDataGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dgv = sender as DataGridView;
+
+            if (dgv.CurrentRow.Selected)
+            {
+                double toPay = double.Parse(loanDataGrid.Rows[e.RowIndex].Cells[12].Value.ToString());
+
+                if (toPay <= 0.0)
+                {
+                    MessageBox.Show("This loan is settled!", "Term Payment", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+                else
+                {
+                    long loanId = Int32.Parse(loanDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                    long pid = Int32.Parse(loanDataGrid.Rows[e.RowIndex].Cells[1].Value.ToString());
+                    string name = loanDataGrid.Rows[e.RowIndex].Cells[3].Value.ToString();
+                    string nic = loanDataGrid.Rows[e.RowIndex].Cells[4].Value.ToString();
+                    int termNo = Int32.Parse(loanDataGrid.Rows[e.RowIndex].Cells[10].Value.ToString()) + 1;
+                    double amount = double.Parse(loanDataGrid.Rows[e.RowIndex].Cells[9].Value.ToString());
+
+                    AddPaymentForm frm = new AddPaymentForm(new Person(pid, name, nic), termNo, amount);
+
+                    frm.ShowDialog();
+                }
+            }
         }
     }
 }
