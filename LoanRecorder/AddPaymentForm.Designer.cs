@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.addPayCustNameTxtBox = new System.Windows.Forms.TextBox();
@@ -40,7 +41,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.addPayDatePicker = new System.Windows.Forms.DateTimePicker();
             this.addPayBtn = new System.Windows.Forms.Button();
-            this.addPayClearBtn = new System.Windows.Forms.Button();
+            this.addPaymentErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.addPaymentErrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -160,17 +163,16 @@
             this.addPayBtn.TabIndex = 11;
             this.addPayBtn.Text = "Add Payment";
             this.addPayBtn.UseVisualStyleBackColor = false;
+            this.addPayBtn.Click += new System.EventHandler(this.addPayBtn_Click);
             // 
-            // addPayClearBtn
+            // addPaymentErrorProvider
             // 
-            this.addPayClearBtn.BackColor = System.Drawing.Color.Crimson;
-            this.addPayClearBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addPayClearBtn.Location = new System.Drawing.Point(12, 288);
-            this.addPayClearBtn.Name = "addPayClearBtn";
-            this.addPayClearBtn.Size = new System.Drawing.Size(141, 34);
-            this.addPayClearBtn.TabIndex = 12;
-            this.addPayClearBtn.Text = "Clear";
-            this.addPayClearBtn.UseVisualStyleBackColor = false;
+            this.addPaymentErrorProvider.ContainerControl = this;
+            // 
+            // notifyIcon
+            // 
+            this.notifyIcon.Text = "notifyIcon1";
+            this.notifyIcon.Visible = true;
             // 
             // AddPaymentForm
             // 
@@ -178,7 +180,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(436, 356);
-            this.Controls.Add(this.addPayClearBtn);
             this.Controls.Add(this.addPayBtn);
             this.Controls.Add(this.addPayDatePicker);
             this.Controls.Add(this.label6);
@@ -196,6 +197,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add Payment";
             this.Load += new System.EventHandler(this.AddPaymentForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.addPaymentErrorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -215,6 +217,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DateTimePicker addPayDatePicker;
         private System.Windows.Forms.Button addPayBtn;
-        private System.Windows.Forms.Button addPayClearBtn;
+        private System.Windows.Forms.ErrorProvider addPaymentErrorProvider;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
     }
 }

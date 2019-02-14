@@ -920,9 +920,16 @@ namespace LoanRecorder
                     int termNo = Int32.Parse(loanDataGrid.Rows[e.RowIndex].Cells[10].Value.ToString()) + 1;
                     double amount = double.Parse(loanDataGrid.Rows[e.RowIndex].Cells[9].Value.ToString());
 
-                    AddPaymentForm frm = new AddPaymentForm(new Person(pid, name, nic), termNo, amount);
+                    AddPaymentForm frm = new AddPaymentForm(new Person(pid, name, nic), loanId, termNo, amount);
 
                     frm.ShowDialog();
+
+                    if ((toPay - amount) <= 0)
+                    {
+                        Database.SettleLoan(loanId);
+                    }
+                    
+                    fillLoanDataGrid();
                 }
             }
         }

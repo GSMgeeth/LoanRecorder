@@ -450,9 +450,19 @@ namespace LoanRecorder.Core
                 return false;
         }
 
-        public static Boolean settleLoan(LoanDetails loanDetails)
+        public static Boolean SettleLoan(long loanId)
         {
-            return false;
+            try
+            {
+                Connection.updateDB("update loan_details set settled=1 where loan_details_id=" + loanId);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
         }
 
         public static LinkedList<LoanDetails> GetLoansByCustomer(Person person)
@@ -552,6 +562,27 @@ namespace LoanRecorder.Core
             reader.Close();
 
             return loans;
+        }
+
+        public static Boolean AddPayment(long pid, long loanId, int termNo, double amount, DateTime paidDate)
+        {
+            try
+            {
+                Connection.updateDB("insert into payment_records (pid, loan_details_id, amount, paid_date, term_no) values (" +
+                "" + pid + "," +
+                "" + loanId + "," +
+                "" + amount + "," +
+                "'" + paidDate.ToString("yyyy/MM/d") + "'," +
+                "" + termNo + ");");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                return false;
+            }
         }
 
         public static double GetRate()
