@@ -8,6 +8,6 @@ namespace LoanRecorder.Common
 {
     class Global
     {
-        public const double INTEREST = 10.0;
+        public static double INTEREST = 10.0;
     }
 }

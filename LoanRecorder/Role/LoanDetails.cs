@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoanRecorder.Role
 {
-    class LoanDetails
+    public class LoanDetails
     {
         private DateTime relDate;
         private double relAmount;

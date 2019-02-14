@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoanRecorder.Role
 {
-    class Interest
+    public class Interest
     {
         private int interestId;
         private double interestPercentage;

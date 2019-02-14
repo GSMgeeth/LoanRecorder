@@ -54,6 +54,29 @@ namespace LoanRecorder.Common
                 return false;
         }
 
+        public static Boolean isLoanValidForAdding(LoanDetails loan)
+        {
+            if (loan != null)
+                if (!loan.RelDate.Equals(null))
+                    if (loan.RelAmount >= 0.00)
+                        if (loan.NoOfTerms > 0)
+                            if (loan.LoanType.Id > 0)
+                                if (loan.Guarantors.Length == 2)
+                                    return true;
+                                else
+                                    return false;
+                            else
+                                return false;
+                        else
+                            return false;
+                    else
+                        return false;
+                else
+                    return false;
+            else
+                return false;
+        }
+
         public static Boolean isGuarantorValidForAddingAndUpdating(Guarantor guarantor)
         {
             if (guarantor != null)
@@ -67,7 +90,18 @@ namespace LoanRecorder.Common
             else
                 return false;
         }
-        
+
+        public static Boolean isLoanTypeValidForAdding(LoanType loanType)
+        {
+            if (loanType != null)
+                if (!loanType.Type_name.Equals(""))
+                    return true;
+                else
+                    return false;
+            else
+                return false;
+        }
+
         public static Boolean isLettersOnly(String text)
         {
             return !text.Any(char.IsDigit);
@@ -90,6 +124,14 @@ namespace LoanRecorder.Common
             return Double.TryParse(text, out dbl);
         }
 
+        public static Boolean isRate(string text)
+        {
+            if (isDouble(text))
+                return ((Double.Parse(text) <= 100.00) && (Double.Parse(text) >= 0.00));
+            else
+                return false;
+        }
+
         public static Boolean isInteger(String text)
         {
             int integer;
@@ -110,7 +152,7 @@ namespace LoanRecorder.Common
 
         public static Boolean isFuture(DateTime dateTime)
         {
-            return (dateTime > DateTime.Now);
+            return (dateTime >= (DateTime.Today.AddDays(1)));
         }
     }
 }

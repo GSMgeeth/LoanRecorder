@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoanRecorder.Role
 {
-    class LoanType
+    public class LoanType
     {
         private int id;
         private string type_name;

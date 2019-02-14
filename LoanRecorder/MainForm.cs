@@ -1,6 +1,7 @@
 ﻿using LoanRecorder.Common;
 using LoanRecorder.Core;
 using LoanRecorder.Role;
+using LoanRecorder.Role.Views;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,199 @@ namespace LoanRecorder
         private void MainForm_Load(object sender, EventArgs e)
         {
             fillCustomerDataGrid();
+
+            fillCurrentInterestRate();
+
+            fillLoanDataGrid();
+
+            fillCustomerCmbBoxes();
+            fillLoanTypeCmbBoxes();
+
+            setInterestRate();
+        }
+
+        private void setInterestRate()
+        {
+            double rate = Database.GetInterestRate();
+
+            if (rate >= 0.00)
+            {
+                Global.INTEREST = rate;
+
+                rateTxtBox.Text = "" + rate;
+            }
+        }
+
+        private void fillLoanDataGridUsingList(LinkedList<LoanDataGridView> list)
+        {
+            DataTable table = new DataTable();
+
+            loanDataGrid.DataSource = null;
+
+            LinkedList<LoanDataGridView> loans = list;
+
+            table.Columns.Add("loan Details Id", typeof(long));
+            table.Columns.Add("pid", typeof(long));
+            table.Columns.Add("loan Type Id", typeof(int));
+            table.Columns.Add("Customer", typeof(string));
+            table.Columns.Add("NIC", typeof(string));
+            table.Columns.Add("Type", typeof(string));
+            table.Columns.Add("Rel. Date", typeof(DateTime));
+            table.Columns.Add("Rel. Amount", typeof(double));
+            table.Columns.Add("No of Terms", typeof(int));
+            table.Columns.Add("Paid Terms", typeof(int));
+            table.Columns.Add("Paid Amount", typeof(double));
+            table.Columns.Add("To Pay", typeof(double));
+            table.Columns.Add("Profit", typeof(double));
+
+            foreach (LoanDataGridView loan in loans)
+            {
+                DataRow row = table.NewRow();
+
+                Console.WriteLine("\n\n");
+                Console.WriteLine(loan.Name);
+                Console.WriteLine("\n\n");
+
+                row[0] = loan.LoanDetailsId;
+                row[1] = loan.Pid;
+                row[2] = loan.LoanTypeId;
+                row[3] = loan.Name;
+                row[4] = loan.Nic;
+                row[5] = loan.LoanTypeName;
+                row[6] = loan.RelDate;
+                row[7] = loan.RelAmount;
+                row[8] = loan.NoOfTerms;
+                row[9] = loan.PaidCount;
+                row[10] = loan.PaidAmount;
+                row[11] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.PaidAmount;
+                row[12] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.RelAmount;
+
+                table.Rows.Add(row);
+            }
+            
+            loanDataGrid.DataSource = table;
+
+            loanDataGrid.Columns[0].Visible = false;
+            loanDataGrid.Columns[1].Visible = false;
+            loanDataGrid.Columns[2].Visible = false;
+        }
+
+        private void fillLoanDataGrid()
+        {
+            DataTable table = new DataTable();
+
+            loanDataGrid.DataSource = null;
+
+            LinkedList<LoanDataGridView> loans = Database.GetAllLoanDetails();
+
+            table.Columns.Add("loan Details Id", typeof(long));
+            table.Columns.Add("pid", typeof(long));
+            table.Columns.Add("loan Type Id", typeof(int));
+            table.Columns.Add("Customer", typeof(string));
+            table.Columns.Add("NIC", typeof(string));
+            table.Columns.Add("Type", typeof(string));
+            table.Columns.Add("Rel. Date", typeof(DateTime));
+            table.Columns.Add("Rel. Amount", typeof(double));
+            table.Columns.Add("No of Terms", typeof(int));
+            table.Columns.Add("Amount Per Term", typeof(double));
+            table.Columns.Add("Paid Terms", typeof(int));
+            table.Columns.Add("Paid Amount", typeof(double));
+            table.Columns.Add("To Pay", typeof(double));
+            table.Columns.Add("Profit", typeof(double));
+
+            foreach (LoanDataGridView loan in loans)
+            {
+                DataRow row = table.NewRow();
+
+                Console.WriteLine("\n\n");
+                Console.WriteLine(loan.Name);
+                Console.WriteLine("\n\n");
+
+                row[0] = loan.LoanDetailsId;
+                row[1] = loan.Pid;
+                row[2] = loan.LoanTypeId;
+                row[3] = loan.Name;
+                row[4] = loan.Nic;
+                row[5] = loan.LoanTypeName;
+                row[6] = loan.RelDate;
+                row[7] = loan.RelAmount;
+                row[8] = loan.NoOfTerms;
+                row[9] = loan.AmountPerTerm;
+                row[10] = loan.PaidCount;
+                row[11] = loan.PaidAmount;
+                row[12] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.PaidAmount;
+                row[13] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.RelAmount;
+                
+
+                table.Rows.Add(row);
+            }
+
+            // var list = new BindingList<LoanDetails>(loans.ToList());
+
+            loanDataGrid.DataSource = table;
+
+            loanDataGrid.Columns[0].Visible = false;
+            loanDataGrid.Columns[1].Visible = false;
+            loanDataGrid.Columns[2].Visible = false;
+        }
+
+        private void fillLoanTypeCmbBoxes()
+        {
+            LinkedList<LoanType> types = Database.GetAllLoanTypes();
+
+            DataTable table = new DataTable();
+
+            table.Columns.Add("id");
+            table.Columns.Add("name");
+
+            foreach (LoanType type in types)
+            {
+                DataRow row = table.NewRow();
+
+                row["id"] = type.Id;
+                row["name"] = type.Type_name;
+
+                table.Rows.Add(row);
+            }
+
+            issueLoanTypeCmbBox.DataSource = table;
+
+            issueLoanTypeCmbBox.ValueMember = "id";
+            issueLoanTypeCmbBox.DisplayMember = "name";
+        }
+
+        private void fillCustomerCmbBoxes()
+        {
+            LinkedList<Person> persons = Database.GetAllPersons();
+
+            DataTable table = new DataTable();
+
+            table.Columns.Add("pid");
+            table.Columns.Add("name");
+
+            foreach (Person person in persons)
+            {
+                DataRow row = table.NewRow();
+
+                row["pid"] = person.Pid;
+                row["name"] = person.Name;
+
+                table.Rows.Add(row);
+            }
+
+            issueLoanCustCmbBox.DataSource = table;
+
+            issueLoanCustCmbBox.ValueMember = "pid";
+            issueLoanCustCmbBox.DisplayMember = "name";
+        }
+
+        private void fillCurrentInterestRate()
+        {
+            double rate = Database.GetInterestRate();
+
+            curRateTxtBox.Text = "" + rate;
+
+            setInterestRate();
         }
 
         private void fillCustomerDataGrid()
@@ -32,6 +226,15 @@ namespace LoanRecorder
 
             LinkedList<Person> customers = Database.GetAllPersons();
 
+            var list = new BindingList<Person>(customers.ToList());
+
+            customerDataGrid.DataSource = list;
+
+            customerDataGrid.Columns[0].Visible = false;
+        }
+
+        private void fillCustomerDataGridUsingList(LinkedList<Person> customers)
+        {
             var list = new BindingList<Person>(customers.ToList());
 
             customerDataGrid.DataSource = list;
@@ -68,6 +271,8 @@ namespace LoanRecorder
                             notifyIcon.Icon = SystemIcons.Application;
                             notifyIcon.BalloonTipText = "Customer Successfully added!";
                             notifyIcon.ShowBalloonTip(200);
+
+                            fillCustomerCmbBoxes();
                         }
                     }
                     else
@@ -128,6 +333,8 @@ namespace LoanRecorder
                                 notifyIcon.Icon = SystemIcons.Application;
                                 notifyIcon.BalloonTipText = "Customer Successfully updated!";
                                 notifyIcon.ShowBalloonTip(200);
+
+                                fillCustomerCmbBoxes();
                             }
                         }
                     }
@@ -180,6 +387,26 @@ namespace LoanRecorder
             updateCustNicTxtBox.Text = "";
             updateCustTelTxtBox.Text = "";
             updateCustAddressTxtBox.Text = "";
+        }
+
+        private void clearIssueLoanPanel()
+        {
+            issueLoanCustNicTxtBox.Text = "";
+            issueLoanCustCmbBox.SelectedIndex = 0;
+            issueLoanRelDatePicker.Value = DateTime.Now;
+            issueLoanAmountTxtBox.Text = "";
+            issueLoanTypeCmbBox.SelectedIndex = 0;
+
+            issueLoanNoOfTermsTxtBox.Text = "";
+            issueLoanTermPaymentTxtBox.Text = "";
+
+            issueLoanPayableTxtBox.Text = "";
+            issueLoanProfitTxtBox.Text = "";
+
+            issueLoanGuarName1TxtBox.Text = "";
+            issueLoanGuarName2TxtBox.Text = "";
+            issueLoanGuarAddress1TxtBox.Text = "";
+            issueLoanGuarAddress2TxtBox.Text = "";
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -327,6 +554,384 @@ namespace LoanRecorder
         {
             mainFormErrorProvider.SetError(updateCustTelTxtBox, "");
             mainFormErrorProvider.Clear();
+        }
+
+        private void searchCustomerByNameTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            string name = searchCustomerByNameTxtBox.Text;
+
+            if (name.Equals(""))
+                fillCustomerDataGrid();
+            else
+                fillCustomerDataGridUsingList(Database.GetPersonsByName(name));
+        }
+
+        private void showAllBtnCustMan_Click(object sender, EventArgs e)
+        {
+            searchCustomerByNameTxtBox.Text = "";
+            fillCustomerDataGrid();
+        }
+
+        private void addNewLoanTypeBtn_Click(object sender, EventArgs e)
+        {
+            if (newLoanTypeTxtBox.Text.Equals(""))
+                MessageBox.Show("Type Name cannot be empty!", "Add Loan Type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                string typeName = newLoanTypeTxtBox.Text;
+
+                if (Database.GetLoanTypeByName(typeName) == null)
+                {
+                    if (Database.AddLoanType(new LoanType(typeName)))
+                    {
+                        newLoanTypeTxtBox.Text = "";
+
+                        notifyIcon.Icon = SystemIcons.Application;
+                        notifyIcon.BalloonTipText = "Loan Type Successfully added!";
+                        notifyIcon.ShowBalloonTip(200);
+
+                        fillLoanTypeCmbBoxes();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Loan type name already exists!", "Add Loan Type", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void changeRateBtn_Click(object sender, EventArgs e)
+        {
+            if (newRateTxtBox.Text.Equals(""))
+                MessageBox.Show("Rate cannot be empty!", "Change Rate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                string rate = newRateTxtBox.Text;
+
+                if (Database.ChangeRate(Double.Parse(rate)))
+                {
+                    newRateTxtBox.Text = "";
+                    fillCurrentInterestRate();
+
+                    notifyIcon.Icon = SystemIcons.Application;
+                    notifyIcon.BalloonTipText = "Interest Rate Successfully changed!";
+                    notifyIcon.ShowBalloonTip(200);
+                }
+            }
+        }
+
+        private void newRateTxtBox_Validating(object sender, CancelEventArgs e)
+        {
+            string errorMsg;
+
+            if (!Validation.isRate(newRateTxtBox.Text))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Invalid Rate!";
+
+                newRateTxtBox.Select(0, newRateTxtBox.Text.Length);
+
+                this.mainFormErrorProvider.SetError(newRateTxtBox, errorMsg);
+            }
+        }
+
+        private void newRateTxtBox_Validated(object sender, EventArgs e)
+        {
+            mainFormErrorProvider.SetError(newRateTxtBox, "");
+            mainFormErrorProvider.Clear();
+        }
+
+        private void issueLoanBtn_Click(object sender, EventArgs e)
+        {
+            Object custObj = issueLoanCustCmbBox.SelectedItem;
+            Object loanTypeObj = issueLoanTypeCmbBox.SelectedItem;
+            DateTime dt = issueLoanRelDatePicker.Value;
+
+            if (custObj == null)
+                MessageBox.Show("Select a Customer!", "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (loanTypeObj == null)
+                MessageBox.Show("Select a Loan Type!", "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (Validation.isFuture(dt))
+                MessageBox.Show("Select a valid date!", "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (issueLoanAmountTxtBox.Text.Equals(""))
+                MessageBox.Show("Loan Amount cannot be empty!", "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (issueLoanNoOfTermsTxtBox.Text.Equals(""))
+                MessageBox.Show("No of terms cannot be empty!", "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (issueLoanTermPaymentTxtBox.Text.Equals(""))
+                MessageBox.Show("Loan Term amount cannot be empty!", "Issue Loan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                long pid = Int32.Parse(issueLoanCustCmbBox.SelectedValue.ToString());
+                int typeId = Int32.Parse(issueLoanTypeCmbBox.SelectedValue.ToString());
+                DateTime relDate = issueLoanRelDatePicker.Value;
+                double amount = Double.Parse(issueLoanAmountTxtBox.Text);
+                int noOfTerms = Int32.Parse(issueLoanNoOfTermsTxtBox.Text);
+                double termPayment = Double.Parse(issueLoanTermPaymentTxtBox.Text);
+                string guar1Name = issueLoanGuarName1TxtBox.Text;
+                string guar2Name = issueLoanGuarName2TxtBox.Text;
+                string guar1Add = issueLoanGuarAddress1TxtBox.Text;
+                string guar2Add = issueLoanGuarAddress2TxtBox.Text;
+
+                LinkedList<Guarantor> guarantors = new LinkedList<Guarantor>();
+
+                guarantors.AddLast(new Guarantor(guar1Name, guar1Add));
+                guarantors.AddLast(new Guarantor(guar2Name, guar2Add));
+
+                if (Database.IssueLoan(new LoanDetails(relDate, amount, noOfTerms, termPayment, new LoanType(typeId)), guarantors, pid))
+                {
+                    clearIssueLoanPanel();
+                    fillLoanDataGrid();
+
+                    notifyIcon.Icon = SystemIcons.Application;
+                    notifyIcon.BalloonTipText = "Loan Successfully issued!";
+                    notifyIcon.ShowBalloonTip(200);
+                }
+            }
+        }
+
+        private void clearIssueLoanBtn_Click(object sender, EventArgs e)
+        {
+            clearIssueLoanPanel();
+        }
+
+        private void issueLoanRelDatePicker_Validating(object sender, CancelEventArgs e)
+        {
+            string errorMsg;
+
+            if (Validation.isFuture(issueLoanRelDatePicker.Value))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Date cannot be in the future!";
+
+                this.mainFormErrorProvider.SetError(issueLoanRelDatePicker, errorMsg);
+            }
+        }
+
+        private void issueLoanRelDatePicker_Validated(object sender, EventArgs e)
+        {
+            mainFormErrorProvider.SetError(issueLoanRelDatePicker, "");
+            mainFormErrorProvider.Clear();
+        }
+
+        private void issueLoanAmountTxtBox_Validating(object sender, CancelEventArgs e)
+        {
+            string errorMsg;
+
+            if (!Validation.isDouble(issueLoanAmountTxtBox.Text))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Invalid Amount!";
+
+                issueLoanAmountTxtBox.Select(0, issueLoanAmountTxtBox.Text.Length);
+
+                this.mainFormErrorProvider.SetError(issueLoanAmountTxtBox, errorMsg);
+            }
+        }
+
+        private void issueLoanAmountTxtBox_Validated(object sender, EventArgs e)
+        {
+            mainFormErrorProvider.SetError(issueLoanAmountTxtBox, "");
+            mainFormErrorProvider.Clear();
+        }
+
+        private void issueLoanNoOfTermsTxtBox_Validating(object sender, CancelEventArgs e)
+        {
+            string errorMsg;
+
+            if (!Validation.isInteger(issueLoanNoOfTermsTxtBox.Text))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Invalid No of terms!";
+
+                issueLoanNoOfTermsTxtBox.Select(0, issueLoanNoOfTermsTxtBox.Text.Length);
+
+                this.mainFormErrorProvider.SetError(issueLoanNoOfTermsTxtBox, errorMsg);
+            }
+        }
+
+        private void issueLoanNoOfTermsTxtBox_Validated(object sender, EventArgs e)
+        {
+            mainFormErrorProvider.SetError(issueLoanNoOfTermsTxtBox, "");
+            mainFormErrorProvider.Clear();
+        }
+
+        private void issueLoanTermPaymentTxtBox_Validating(object sender, CancelEventArgs e)
+        {
+            string errorMsg;
+
+            if (!Validation.isDouble(issueLoanTermPaymentTxtBox.Text))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Invalid Amount!";
+
+                issueLoanTermPaymentTxtBox.Select(0, issueLoanTermPaymentTxtBox.Text.Length);
+
+                this.mainFormErrorProvider.SetError(issueLoanTermPaymentTxtBox, errorMsg);
+            }
+        }
+
+        private void issueLoanTermPaymentTxtBox_Validated(object sender, EventArgs e)
+        {
+            mainFormErrorProvider.SetError(issueLoanTermPaymentTxtBox, "");
+            mainFormErrorProvider.Clear();
+        }
+
+        private void issueLoanGuarName1TxtBox_Validating(object sender, CancelEventArgs e)
+        {
+            string errorMsg;
+
+            if (!Validation.isLettersOnly(issueLoanGuarName1TxtBox.Text))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Invalid Name!";
+
+                issueLoanGuarName1TxtBox.Select(0, issueLoanGuarName1TxtBox.Text.Length);
+
+                this.mainFormErrorProvider.SetError(issueLoanGuarName1TxtBox, errorMsg);
+            }
+        }
+
+        private void issueLoanGuarName1TxtBox_Validated(object sender, EventArgs e)
+        {
+            mainFormErrorProvider.SetError(issueLoanGuarName1TxtBox, "");
+            mainFormErrorProvider.Clear();
+        }
+
+        private void issueLoanGuarName2TxtBox_Validating(object sender, CancelEventArgs e)
+        {
+            string errorMsg;
+
+            if (!Validation.isLettersOnly(issueLoanGuarName2TxtBox.Text))
+            {
+                e.Cancel = true;
+
+                errorMsg = "Invalid Name!";
+
+                issueLoanGuarName2TxtBox.Select(0, issueLoanGuarName2TxtBox.Text.Length);
+
+                this.mainFormErrorProvider.SetError(issueLoanGuarName2TxtBox, errorMsg);
+            }
+        }
+
+        private void issueLoanGuarName2TxtBox_Validated(object sender, EventArgs e)
+        {
+            mainFormErrorProvider.SetError(issueLoanGuarName2TxtBox, "");
+            mainFormErrorProvider.Clear();
+        }
+
+        private void issueLoanCustCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (issueLoanCustCmbBox.SelectedItem != null)
+            {
+                long custId;
+
+                if (long.TryParse(issueLoanCustCmbBox.SelectedValue.ToString(), out custId))
+                {
+                    Person person = Database.GetPersonById(Int32.Parse(issueLoanCustCmbBox.SelectedValue.ToString()));
+
+                    if (person != null)
+                    {
+                        issueLoanCustNicTxtBox.Text = person.Nic;
+                    }
+                }
+            }
+        }
+
+        private void issueLoanAmountTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            double amount = 0.0;
+
+            if (double.TryParse(issueLoanAmountTxtBox.Text, out amount))
+            {
+                double profit = 0.1 * amount;
+
+                issueLoanPayableTxtBox.Text = "" + (amount + profit);
+                issueLoanProfitTxtBox.Text = "" + profit;
+            }
+            else
+            {
+                issueLoanPayableTxtBox.Text = "";
+                issueLoanProfitTxtBox.Text = "";
+            }
+        }
+
+        private void issueLoanNoOfTermsTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            int noOfTerms = 0;
+            double amount = 0.0;
+
+            if (double.TryParse(issueLoanAmountTxtBox.Text, out amount))
+            {
+                if (int.TryParse(issueLoanNoOfTermsTxtBox.Text, out noOfTerms))
+                {
+                    double total = 0.1 * amount + amount;
+                    double amountPerTerm = total / noOfTerms;
+
+                    issueLoanTermPaymentTxtBox.Text = "" + amountPerTerm;
+                }
+                else
+                {
+                    issueLoanTermPaymentTxtBox.Text = "";
+                }
+            }
+        }
+
+        private void searchLoanByCustTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            string name = searchLoanByCustTxtBox.Text;
+
+            if (name.Equals(""))
+                fillLoanDataGrid();
+            else
+                fillLoanDataGridUsingList(Database.GetAllLoanDetailsByCutomerName(name));
+        }
+
+        private void loanShowAllBtn_Click(object sender, EventArgs e)
+        {
+            searchLoanByCustTxtBox.Text = "";
+
+            fillLoanDataGrid();
+        }
+
+        private void loanDataGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dgv = sender as DataGridView;
+
+            if (dgv.CurrentRow.Selected)
+            {
+                double toPay = double.Parse(loanDataGrid.Rows[e.RowIndex].Cells[12].Value.ToString());
+
+                if (toPay <= 0.0)
+                {
+                    MessageBox.Show("This loan is settled!", "Term Payment", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+                else
+                {
+                    long loanId = Int32.Parse(loanDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
+                    long pid = Int32.Parse(loanDataGrid.Rows[e.RowIndex].Cells[1].Value.ToString());
+                    string name = loanDataGrid.Rows[e.RowIndex].Cells[3].Value.ToString();
+                    string nic = loanDataGrid.Rows[e.RowIndex].Cells[4].Value.ToString();
+                    int termNo = Int32.Parse(loanDataGrid.Rows[e.RowIndex].Cells[10].Value.ToString()) + 1;
+                    double amount = double.Parse(loanDataGrid.Rows[e.RowIndex].Cells[9].Value.ToString());
+
+                    AddPaymentForm frm = new AddPaymentForm(new Person(pid, name, nic), loanId, termNo, amount);
+
+                    frm.ShowDialog();
+
+                    if ((toPay - amount) <= 0)
+                    {
+                        Database.SettleLoan(loanId);
+                    }
+                    
+                    fillLoanDataGrid();
+                }
+            }
         }
     }
 }
