@@ -34,7 +34,7 @@ namespace LoanRecorder.Common
 
                 case "Monthly":
 
-                    counter = (int)(days / Global.MONTHLY);
+                    counter = (int)(days / Global.FIVE_DAY);
 
                     //for (DateTime i = relDate; i < DateTime.Today; i.AddDays(30))
                     //{
@@ -42,7 +42,7 @@ namespace LoanRecorder.Common
                     //}
 
                     isDue = (counter > paidTerms);
-                    dueDate = relDate.AddDays(Global.MONTHLY * paidTerms + Global.MONTHLY);
+                    dueDate = relDate.AddDays(Global.FIVE_DAY * paidTerms + Global.FIVE_DAY);
 
                     break;
 

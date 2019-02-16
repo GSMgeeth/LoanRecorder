@@ -63,10 +63,6 @@ namespace LoanRecorder
             foreach (DuePaymentView d in dues)
             {
                 DataRow row = table.NewRow();
-
-                Console.WriteLine("\n\n");
-                Console.WriteLine(d.Name);
-                Console.WriteLine("\n\n");
                 
                 row[0] = d.Pid;
                 row[1] = d.LoanId;
@@ -116,7 +112,7 @@ namespace LoanRecorder
             table.Columns.Add("Rel. Date", typeof(DateTime));
             table.Columns.Add("Rel. Amount", typeof(double));
             table.Columns.Add("No of Terms", typeof(int));
-            table.Columns.Add("Amount Per Term", typeof(double));
+            table.Columns.Add("Per Term", typeof(double));
             table.Columns.Add("Paid Terms", typeof(int));
             table.Columns.Add("Paid Amount", typeof(double));
             table.Columns.Add("To Pay", typeof(double));
@@ -125,10 +121,6 @@ namespace LoanRecorder
             foreach (LoanDataGridView loan in loans)
             {
                 DataRow row = table.NewRow();
-
-                Console.WriteLine("\n\n");
-                Console.WriteLine(loan.Name);
-                Console.WriteLine("\n\n");
 
                 row[0] = loan.LoanDetailsId;
                 row[1] = loan.Pid;
@@ -172,7 +164,7 @@ namespace LoanRecorder
             table.Columns.Add("Rel. Date", typeof(DateTime));
             table.Columns.Add("Rel. Amount", typeof(double));
             table.Columns.Add("No of Terms", typeof(int));
-            table.Columns.Add("Amount Per Term", typeof(double));
+            table.Columns.Add("Per Term", typeof(double));
             table.Columns.Add("Paid Terms", typeof(int));
             table.Columns.Add("Paid Amount", typeof(double));
             table.Columns.Add("To Pay", typeof(double));
@@ -181,11 +173,7 @@ namespace LoanRecorder
             foreach (LoanDataGridView loan in loans)
             {
                 DataRow row = table.NewRow();
-
-                Console.WriteLine("\n\n");
-                Console.WriteLine(loan.Name);
-                Console.WriteLine("\n\n");
-
+                
                 row[0] = loan.LoanDetailsId;
                 row[1] = loan.Pid;
                 row[2] = loan.LoanTypeId;
@@ -662,22 +650,24 @@ namespace LoanRecorder
 
         private void changeRateBtn_Click(object sender, EventArgs e)
         {
-            if (newRateTxtBox.Text.Equals(""))
-                MessageBox.Show("Rate cannot be empty!", "Change Rate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else
-            {
-                string rate = newRateTxtBox.Text;
+            MessageBox.Show("This feature has been disabled!", "Change Rate", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                if (Database.ChangeRate(Double.Parse(rate)))
-                {
-                    newRateTxtBox.Text = "";
-                    fillCurrentInterestRate();
+            //if (newRateTxtBox.Text.Equals(""))
+            //    MessageBox.Show("Rate cannot be empty!", "Change Rate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //else
+            //{
+            //    string rate = newRateTxtBox.Text;
 
-                    notifyIcon.Icon = SystemIcons.Application;
-                    notifyIcon.BalloonTipText = "Interest Rate Successfully changed!";
-                    notifyIcon.ShowBalloonTip(200);
-                }
-            }
+            //    if (Database.ChangeRate(Double.Parse(rate)))
+            //    {
+            //        newRateTxtBox.Text = "";
+            //        fillCurrentInterestRate();
+
+            //        notifyIcon.Icon = SystemIcons.Application;
+            //        notifyIcon.BalloonTipText = "Interest Rate Successfully changed!";
+            //        notifyIcon.ShowBalloonTip(200);
+            //    }
+            //}
         }
 
         private void newRateTxtBox_Validating(object sender, CancelEventArgs e)
@@ -921,28 +911,7 @@ namespace LoanRecorder
                 issueLoanProfitTxtBox.Text = "";
             }
         }
-
-        private void issueLoanNoOfTermsTxtBox_TextChanged(object sender, EventArgs e)
-        {
-            int noOfTerms = 0;
-            double amount = 0.0;
-
-            if (double.TryParse(issueLoanAmountTxtBox.Text, out amount))
-            {
-                if (int.TryParse(issueLoanNoOfTermsTxtBox.Text, out noOfTerms))
-                {
-                    double total = 0.1 * amount + amount;
-                    double amountPerTerm = total / noOfTerms;
-
-                    issueLoanTermPaymentTxtBox.Text = "" + amountPerTerm;
-                }
-                else
-                {
-                    issueLoanTermPaymentTxtBox.Text = "";
-                }
-            }
-        }
-
+        
         private void searchLoanByCustTxtBox_TextChanged(object sender, EventArgs e)
         {
             string name = searchLoanByCustTxtBox.Text;
@@ -1020,6 +989,52 @@ namespace LoanRecorder
                 PaymentDetailsForm frm = new PaymentDetailsForm(pid, loanId, name, nic, relDate, relAmount, paidAmount, toPay, profit);
 
                 frm.ShowDialog();
+            }
+        }
+
+        private void setAmountPerTerm()
+        {
+            int noOfTerms = 0;
+            double amount = 0.0;
+
+            if (double.TryParse(issueLoanAmountTxtBox.Text, out amount))
+            {
+                if (int.TryParse(issueLoanNoOfTermsTxtBox.Text, out noOfTerms))
+                {
+                    double total = 0.1 * amount + amount;
+                    double amountPerTerm = total / noOfTerms;
+
+                    issueLoanTermPaymentTxtBox.Text = "" + amountPerTerm;
+                }
+                else
+                {
+                    issueLoanTermPaymentTxtBox.Text = "";
+                }
+            }
+        }
+
+        private void issueLoanTypeCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Object obj = issueLoanTypeCmbBox.SelectedItem;
+            
+            if (obj != null)
+            {
+                string type = issueLoanTypeCmbBox.GetItemText(obj);
+
+                switch (type)
+                {
+                    case "Daily":
+                        issueLoanNoOfTermsTxtBox.Text = "" + (int)(Global.MAX_LOAN_PERIOD / Global.DAILY);
+                        break;
+                    case "Weekly":
+                        issueLoanNoOfTermsTxtBox.Text = "" + (int)(Global.MAX_LOAN_PERIOD / Global.WEEKLY);
+                        break;
+                    case "FiveDay":
+                        issueLoanNoOfTermsTxtBox.Text = "" + (int)(Global.MAX_LOAN_PERIOD / Global.FIVE_DAY);
+                        break;
+                }
+
+                setAmountPerTerm();
             }
         }
     }
