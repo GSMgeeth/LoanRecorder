@@ -585,6 +585,64 @@ namespace LoanRecorder.Core
             }
         }
 
+        public static LinkedList<PaymentRecords> GetPaymentsByLoan(long pid, long loanId)
+        {
+            MySqlDataReader reader = Connection.getData("select * from payment_records where pid=" + pid + " and loan_details_id=" + loanId + " " +
+                "order by paid_date desc;");
+
+            LinkedList<PaymentRecords> payments = new LinkedList<PaymentRecords>();
+
+            while (reader.Read())
+            {
+                PaymentRecords payment = new PaymentRecords();
+
+                payment.PaymentId = reader.GetInt32("payment_id");
+                payment.Amount = reader.GetDouble("amount");
+                payment.PaidDate = reader.GetDateTime("paid_date");
+                payment.TermNo = reader.GetInt32("term_no");
+
+                payments.AddLast(payment);
+            }
+
+            reader.Close();
+
+            return payments;
+        }
+
+        public static LinkedList<DuePaymentView> GetDue()
+        {
+            MySqlDataReader reader = Connection.getData("select p.pid, ld.loan_details_id, lt.id, p.name, p.nic, ld.rel_date, " +
+                        "lt.type_name, ld.rel_amount, ld.no_of_terms, count(pr.payment_id) as payment_counts, IFNULL(sum(pr.amount), 0.0) as paid, ld.amount_per_term, " +
+                        "ld.settled from loan_details ld inner join person p on ld.pid=p.pid left join payment_records pr " +
+                        "ON pr.loan_details_id=ld.loan_details_id inner join loan_type lt on lt.id=ld.loan_type_id " +
+                        "group by ld.loan_details_id order by settled asc;");
+            
+            DateTime dueDate = new DateTime();
+            LinkedList<DuePaymentView> dues = new LinkedList<DuePaymentView>();
+
+            while (reader.Read())
+            {
+                if (DueSearcher.Isdue(reader.GetDateTime(5), reader.GetString(6), reader.GetInt32(9), out dueDate))
+                {
+                    long pid = reader.GetInt32(0);
+                    long loanId = reader.GetInt32(1);
+                    string name = reader.GetString(3);
+                    double relAmount = reader.GetDouble(7);
+                    int termNo = reader.GetInt32(9) + 1;
+                    double amount = reader.GetDouble(11);
+                    DateTime dd = dueDate;
+
+                    DuePaymentView due = new DuePaymentView(pid, loanId, name, relAmount, termNo, amount, dueDate);
+
+                    dues.AddLast(due);
+                }
+            }
+
+            reader.Close();
+            
+            return dues;
+        }
+
         public static double GetRate()
         {
             MySqlDataReader reader = Connection.getData("select interest_percentage from interest where interest_id=1");

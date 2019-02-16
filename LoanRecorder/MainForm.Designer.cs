@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.dashboardTab = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.duePayDataGrid = new System.Windows.Forms.DataGridView();
             this.label24 = new System.Windows.Forms.Label();
             this.loanManagerTab = new System.Windows.Forms.TabPage();
+            this.showMoreBtn = new System.Windows.Forms.Button();
             this.label26 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
             this.addLoanPanel = new System.Windows.Forms.Panel();
             this.issueLoanPayableTxtBox = new System.Windows.Forms.TextBox();
             this.label35 = new System.Windows.Forms.Label();
@@ -119,12 +119,19 @@
             this.newLoanTypeTxtBox = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
+            this.reportTab = new System.Windows.Forms.TabPage();
             this.mainFormErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.label25 = new System.Windows.Forms.Label();
+            this.totCustLabel = new System.Windows.Forms.Label();
+            this.totLoanLabel = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.totProfitLabel = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
             this.mainTabControl.SuspendLayout();
             this.dashboardTab.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.duePayDataGrid)).BeginInit();
             this.loanManagerTab.SuspendLayout();
             this.addLoanPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.loanDataGrid)).BeginInit();
@@ -147,6 +154,7 @@
             this.mainTabControl.Controls.Add(this.loanManagerTab);
             this.mainTabControl.Controls.Add(this.customerManagerTab);
             this.mainTabControl.Controls.Add(this.otherTab);
+            this.mainTabControl.Controls.Add(this.reportTab);
             this.mainTabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mainTabControl.Location = new System.Drawing.Point(12, 12);
             this.mainTabControl.Name = "mainTabControl";
@@ -158,6 +166,12 @@
             // dashboardTab
             // 
             this.dashboardTab.BackColor = System.Drawing.Color.Gainsboro;
+            this.dashboardTab.Controls.Add(this.totProfitLabel);
+            this.dashboardTab.Controls.Add(this.label38);
+            this.dashboardTab.Controls.Add(this.totLoanLabel);
+            this.dashboardTab.Controls.Add(this.label37);
+            this.dashboardTab.Controls.Add(this.totCustLabel);
+            this.dashboardTab.Controls.Add(this.label25);
             this.dashboardTab.Controls.Add(this.panel1);
             this.dashboardTab.Location = new System.Drawing.Point(4, 29);
             this.dashboardTab.Name = "dashboardTab";
@@ -168,30 +182,34 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.DarkGray;
-            this.panel1.Controls.Add(this.dataGridView1);
+            this.panel1.Controls.Add(this.duePayDataGrid);
             this.panel1.Controls.Add(this.label24);
             this.panel1.Location = new System.Drawing.Point(472, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(554, 286);
+            this.panel1.Size = new System.Drawing.Size(554, 612);
             this.panel1.TabIndex = 10;
             // 
-            // dataGridView1
+            // duePayDataGrid
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 133);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(548, 150);
-            this.dataGridView1.TabIndex = 1;
+            this.duePayDataGrid.AllowUserToAddRows = false;
+            this.duePayDataGrid.AllowUserToDeleteRows = false;
+            this.duePayDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.duePayDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.duePayDataGrid.BackgroundColor = System.Drawing.Color.LightGray;
+            this.duePayDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.duePayDataGrid.Location = new System.Drawing.Point(3, 60);
+            this.duePayDataGrid.Name = "duePayDataGrid";
+            this.duePayDataGrid.ReadOnly = true;
+            this.duePayDataGrid.Size = new System.Drawing.Size(548, 549);
+            this.duePayDataGrid.TabIndex = 1;
             // 
             // label24
             // 
+            this.label24.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label24.AutoSize = true;
             this.label24.Location = new System.Drawing.Point(225, 9);
             this.label24.Name = "label24";
@@ -202,8 +220,8 @@
             // loanManagerTab
             // 
             this.loanManagerTab.BackColor = System.Drawing.Color.Gainsboro;
+            this.loanManagerTab.Controls.Add(this.showMoreBtn);
             this.loanManagerTab.Controls.Add(this.label26);
-            this.loanManagerTab.Controls.Add(this.label25);
             this.loanManagerTab.Controls.Add(this.addLoanPanel);
             this.loanManagerTab.Controls.Add(this.label12);
             this.loanManagerTab.Controls.Add(this.searchLoanByCustTxtBox);
@@ -216,27 +234,29 @@
             this.loanManagerTab.TabIndex = 1;
             this.loanManagerTab.Text = "Loan Manager";
             // 
+            // showMoreBtn
+            // 
+            this.showMoreBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.showMoreBtn.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.showMoreBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.showMoreBtn.Location = new System.Drawing.Point(785, 278);
+            this.showMoreBtn.Name = "showMoreBtn";
+            this.showMoreBtn.Size = new System.Drawing.Size(160, 26);
+            this.showMoreBtn.TabIndex = 11;
+            this.showMoreBtn.Text = "Show Payments";
+            this.showMoreBtn.UseVisualStyleBackColor = false;
+            this.showMoreBtn.Click += new System.EventHandler(this.showMoreBtn_Click);
+            // 
             // label26
             // 
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label26.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label26.Location = new System.Drawing.Point(519, 294);
+            this.label26.Location = new System.Drawing.Point(291, 291);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(231, 13);
             this.label26.TabIndex = 10;
             this.label26.Text = "* Click a row header to add a payment to a loan";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label25.Location = new System.Drawing.Point(292, 294);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(221, 13);
-            this.label25.TabIndex = 9;
-            this.label25.Text = "* Click a row to explore more details on a loan";
             // 
             // addLoanPanel
             // 
@@ -506,6 +526,7 @@
             // 
             this.issueLoanCustCmbBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.issueLoanCustCmbBox.FormattingEnabled = true;
+            this.issueLoanCustCmbBox.IntegralHeight = false;
             this.issueLoanCustCmbBox.Location = new System.Drawing.Point(111, 45);
             this.issueLoanCustCmbBox.Name = "issueLoanCustCmbBox";
             this.issueLoanCustCmbBox.Size = new System.Drawing.Size(234, 24);
@@ -630,9 +651,9 @@
             // 
             this.loanShowAllBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.loanShowAllBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.loanShowAllBtn.Location = new System.Drawing.Point(951, 281);
+            this.loanShowAllBtn.Location = new System.Drawing.Point(951, 278);
             this.loanShowAllBtn.Name = "loanShowAllBtn";
-            this.loanShowAllBtn.Size = new System.Drawing.Size(75, 23);
+            this.loanShowAllBtn.Size = new System.Drawing.Size(75, 26);
             this.loanShowAllBtn.TabIndex = 5;
             this.loanShowAllBtn.Text = "Show All";
             this.loanShowAllBtn.UseVisualStyleBackColor = true;
@@ -648,14 +669,14 @@
             this.loanDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.loanDataGrid.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.loanDataGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.MediumTurquoise;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.DarkGreen;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.loanDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.MediumTurquoise;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.DarkGreen;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.loanDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.loanDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.loanDataGrid.Location = new System.Drawing.Point(6, 310);
             this.loanDataGrid.Name = "loanDataGrid";
@@ -1000,14 +1021,14 @@
             this.customerDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.customerDataGrid.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.customerDataGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.MediumTurquoise;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.DarkGreen;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.customerDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.MediumTurquoise;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.DarkGreen;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.customerDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.customerDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.customerDataGrid.Location = new System.Drawing.Point(6, 310);
             this.customerDataGrid.Name = "customerDataGrid";
@@ -1130,6 +1151,7 @@
             this.newLoanTypeTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.newLoanTypeTxtBox.Location = new System.Drawing.Point(111, 47);
             this.newLoanTypeTxtBox.Name = "newLoanTypeTxtBox";
+            this.newLoanTypeTxtBox.ReadOnly = true;
             this.newLoanTypeTxtBox.Size = new System.Drawing.Size(238, 26);
             this.newLoanTypeTxtBox.TabIndex = 2;
             // 
@@ -1152,6 +1174,16 @@
             this.label31.TabIndex = 0;
             this.label31.Text = "Add Loan Type";
             // 
+            // reportTab
+            // 
+            this.reportTab.Location = new System.Drawing.Point(4, 29);
+            this.reportTab.Name = "reportTab";
+            this.reportTab.Padding = new System.Windows.Forms.Padding(3);
+            this.reportTab.Size = new System.Drawing.Size(1032, 624);
+            this.reportTab.TabIndex = 4;
+            this.reportTab.Text = "Reports";
+            this.reportTab.UseVisualStyleBackColor = true;
+            // 
             // mainFormErrorProvider
             // 
             this.mainFormErrorProvider.ContainerControl = this;
@@ -1160,6 +1192,60 @@
             // 
             this.notifyIcon.Text = "notifyIcon1";
             this.notifyIcon.Visible = true;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(6, 515);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(155, 20);
+            this.label25.TabIndex = 11;
+            this.label25.Text = "Total Customers : ";
+            // 
+            // totCustLabel
+            // 
+            this.totCustLabel.AutoSize = true;
+            this.totCustLabel.Location = new System.Drawing.Point(167, 515);
+            this.totCustLabel.Name = "totCustLabel";
+            this.totCustLabel.Size = new System.Drawing.Size(19, 20);
+            this.totCustLabel.TabIndex = 12;
+            this.totCustLabel.Text = "0";
+            // 
+            // totLoanLabel
+            // 
+            this.totLoanLabel.AutoSize = true;
+            this.totLoanLabel.Location = new System.Drawing.Point(167, 547);
+            this.totLoanLabel.Name = "totLoanLabel";
+            this.totLoanLabel.Size = new System.Drawing.Size(19, 20);
+            this.totLoanLabel.TabIndex = 14;
+            this.totLoanLabel.Text = "0";
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(6, 547);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(118, 20);
+            this.label37.TabIndex = 13;
+            this.label37.Text = "Total Loans : ";
+            // 
+            // totProfitLabel
+            // 
+            this.totProfitLabel.AutoSize = true;
+            this.totProfitLabel.Location = new System.Drawing.Point(167, 595);
+            this.totProfitLabel.Name = "totProfitLabel";
+            this.totProfitLabel.Size = new System.Drawing.Size(19, 20);
+            this.totProfitLabel.TabIndex = 16;
+            this.totProfitLabel.Text = "0";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(6, 595);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(112, 20);
+            this.label38.TabIndex = 15;
+            this.label38.Text = "Total Profit : ";
             // 
             // MainForm
             // 
@@ -1176,9 +1262,10 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.mainTabControl.ResumeLayout(false);
             this.dashboardTab.ResumeLayout(false);
+            this.dashboardTab.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.duePayDataGrid)).EndInit();
             this.loanManagerTab.ResumeLayout(false);
             this.loanManagerTab.PerformLayout();
             this.addLoanPanel.ResumeLayout(false);
@@ -1267,10 +1354,9 @@
         private System.Windows.Forms.TextBox issueLoanGuarName2TxtBox;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView duePayDataGrid;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Panel ChangeInterestRatePanel;
         private System.Windows.Forms.TextBox newRateTxtBox;
         private System.Windows.Forms.Label label29;
@@ -1293,6 +1379,14 @@
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.TextBox issueLoanPayableTxtBox;
         private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Button showMoreBtn;
+        private System.Windows.Forms.TabPage reportTab;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label totProfitLabel;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Label totLoanLabel;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label totCustLabel;
     }
 }
 
