@@ -24,6 +24,9 @@ namespace LoanRecorder
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            fillDuePayDataGrid();
+            setLabelValues();
+
             fillCustomerDataGrid();
 
             fillCurrentInterestRate();
@@ -34,6 +37,54 @@ namespace LoanRecorder
             fillLoanTypeCmbBoxes();
 
             setInterestRate();
+        }
+
+        private void setLabelValues()
+        {
+
+        }
+
+        private void fillDuePayDataGrid()
+        {
+            DataTable table = new DataTable();
+
+            duePayDataGrid.DataSource = null;
+
+            LinkedList<DuePaymentView> dues = Database.GetDue();
+
+            table.Columns.Add("pid", typeof(long));
+            table.Columns.Add("loanId", typeof(long));
+            table.Columns.Add("Customer", typeof(string));
+            table.Columns.Add("Rel. Amount", typeof(double));
+            table.Columns.Add("Term No", typeof(int));
+            table.Columns.Add("Amount", typeof(double));
+            table.Columns.Add("Due Date", typeof(DateTime));
+
+            foreach (DuePaymentView d in dues)
+            {
+                DataRow row = table.NewRow();
+
+                Console.WriteLine("\n\n");
+                Console.WriteLine(d.Name);
+                Console.WriteLine("\n\n");
+                
+                row[0] = d.Pid;
+                row[1] = d.LoanId;
+                row[2] = d.Name;
+                row[3] = d.RelAmount;
+                row[4] = d.TermNo;
+                row[5] = d.Amount;
+                row[6] = d.DueDate;
+                
+                table.Rows.Add(row);
+            }
+
+            duePayDataGrid.DataSource = table;
+
+            duePayDataGrid.Sort(duePayDataGrid.Columns[6], ListSortDirection.Descending);
+
+            duePayDataGrid.Columns[0].Visible = false;
+            duePayDataGrid.Columns[1].Visible = false;
         }
 
         private void setInterestRate()
@@ -65,6 +116,7 @@ namespace LoanRecorder
             table.Columns.Add("Rel. Date", typeof(DateTime));
             table.Columns.Add("Rel. Amount", typeof(double));
             table.Columns.Add("No of Terms", typeof(int));
+            table.Columns.Add("Amount Per Term", typeof(double));
             table.Columns.Add("Paid Terms", typeof(int));
             table.Columns.Add("Paid Amount", typeof(double));
             table.Columns.Add("To Pay", typeof(double));
@@ -87,10 +139,11 @@ namespace LoanRecorder
                 row[6] = loan.RelDate;
                 row[7] = loan.RelAmount;
                 row[8] = loan.NoOfTerms;
-                row[9] = loan.PaidCount;
-                row[10] = loan.PaidAmount;
-                row[11] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.PaidAmount;
-                row[12] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.RelAmount;
+                row[9] = loan.AmountPerTerm;
+                row[10] = loan.PaidCount;
+                row[11] = loan.PaidAmount;
+                row[12] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.PaidAmount;
+                row[13] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.RelAmount;
 
                 table.Rows.Add(row);
             }
@@ -159,6 +212,9 @@ namespace LoanRecorder
             loanDataGrid.Columns[0].Visible = false;
             loanDataGrid.Columns[1].Visible = false;
             loanDataGrid.Columns[2].Visible = false;
+
+            totLoanLabel.Text = "" + loans.Count;
+            totProfitLabel.Text = "" + table.Compute("SUM(Profit)", string.Empty).ToString();
         }
 
         private void fillLoanTypeCmbBoxes()
@@ -231,6 +287,8 @@ namespace LoanRecorder
             customerDataGrid.DataSource = list;
 
             customerDataGrid.Columns[0].Visible = false;
+
+            totCustLabel.Text = "" + customers.Count;
         }
 
         private void fillCustomerDataGridUsingList(LinkedList<Person> customers)
@@ -574,30 +632,32 @@ namespace LoanRecorder
 
         private void addNewLoanTypeBtn_Click(object sender, EventArgs e)
         {
-            if (newLoanTypeTxtBox.Text.Equals(""))
-                MessageBox.Show("Type Name cannot be empty!", "Add Loan Type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else
-            {
-                string typeName = newLoanTypeTxtBox.Text;
+            MessageBox.Show("This feature is currently unavailable!", "Add Loan Type", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                if (Database.GetLoanTypeByName(typeName) == null)
-                {
-                    if (Database.AddLoanType(new LoanType(typeName)))
-                    {
-                        newLoanTypeTxtBox.Text = "";
+            //if (newLoanTypeTxtBox.Text.Equals(""))
+            //    MessageBox.Show("Type Name cannot be empty!", "Add Loan Type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //else
+            //{
+            //    string typeName = newLoanTypeTxtBox.Text;
 
-                        notifyIcon.Icon = SystemIcons.Application;
-                        notifyIcon.BalloonTipText = "Loan Type Successfully added!";
-                        notifyIcon.ShowBalloonTip(200);
+            //    if (Database.GetLoanTypeByName(typeName) == null)
+            //    {
+            //        if (Database.AddLoanType(new LoanType(typeName)))
+            //        {
+            //            newLoanTypeTxtBox.Text = "";
 
-                        fillLoanTypeCmbBoxes();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Loan type name already exists!", "Add Loan Type", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+            //            notifyIcon.Icon = SystemIcons.Application;
+            //            notifyIcon.BalloonTipText = "Loan Type Successfully added!";
+            //            notifyIcon.ShowBalloonTip(200);
+
+            //            fillLoanTypeCmbBoxes();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Loan type name already exists!", "Add Loan Type", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+            //}
         }
 
         private void changeRateBtn_Click(object sender, EventArgs e)
@@ -682,6 +742,7 @@ namespace LoanRecorder
                 {
                     clearIssueLoanPanel();
                     fillLoanDataGrid();
+                    fillDuePayDataGrid();
 
                     notifyIcon.Icon = SystemIcons.Application;
                     notifyIcon.BalloonTipText = "Loan Successfully issued!";
@@ -930,7 +991,35 @@ namespace LoanRecorder
                     }
                     
                     fillLoanDataGrid();
+                    fillDuePayDataGrid();
                 }
+            }
+        }
+        
+        private void showMoreBtn_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow cr = loanDataGrid.CurrentRow;
+
+            double paidAmount = double.Parse(cr.Cells[11].Value.ToString());
+
+            if (paidAmount <= 0.0)
+            {
+                MessageBox.Show("This loan has no payments!", "Show Payment Details", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+            else
+            {
+                long pid = Int32.Parse(cr.Cells[1].Value.ToString());
+                long loanId = Int32.Parse(cr.Cells[0].Value.ToString());
+                string name = cr.Cells[3].Value.ToString();
+                string nic = cr.Cells[4].Value.ToString();
+                DateTime relDate = DateTime.Parse(cr.Cells[6].Value.ToString());
+                double relAmount = double.Parse(cr.Cells[7].Value.ToString());
+                double toPay = double.Parse(cr.Cells[12].Value.ToString());
+                double profit = double.Parse(cr.Cells[13].Value.ToString());
+
+                PaymentDetailsForm frm = new PaymentDetailsForm(pid, loanId, name, nic, relDate, relAmount, paidAmount, toPay, profit);
+
+                frm.ShowDialog();
             }
         }
     }
