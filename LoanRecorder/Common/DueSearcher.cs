@@ -32,7 +32,7 @@ namespace LoanRecorder.Common
 
                     break;
 
-                case "Monthly":
+                case "FiveDay":
 
                     counter = (int)(days / Global.FIVE_DAY);
 

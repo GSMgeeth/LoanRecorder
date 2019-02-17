@@ -36,7 +36,7 @@ namespace LoanRecorder
             fillCustomerCmbBoxes();
             fillLoanTypeCmbBoxes();
 
-            setInterestRate();
+            // setInterestRate();
         }
 
         private void setLabelValues()
@@ -134,8 +134,8 @@ namespace LoanRecorder
                 row[9] = loan.AmountPerTerm;
                 row[10] = loan.PaidCount;
                 row[11] = loan.PaidAmount;
-                row[12] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.PaidAmount;
-                row[13] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.RelAmount;
+                row[12] = (loan.Profit + loan.RelAmount) - loan.PaidAmount;
+                row[13] = loan.Profit;
 
                 table.Rows.Add(row);
             }
@@ -186,10 +186,9 @@ namespace LoanRecorder
                 row[9] = loan.AmountPerTerm;
                 row[10] = loan.PaidCount;
                 row[11] = loan.PaidAmount;
-                row[12] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.PaidAmount;
-                row[13] = (loan.RelAmount * (Global.INTEREST / 100) + loan.RelAmount) - loan.RelAmount;
+                row[12] = (loan.Profit + loan.RelAmount) - loan.PaidAmount;
+                row[13] = loan.Profit;
                 
-
                 table.Rows.Add(row);
             }
 
@@ -718,6 +717,7 @@ namespace LoanRecorder
                 double amount = Double.Parse(issueLoanAmountTxtBox.Text);
                 int noOfTerms = Int32.Parse(issueLoanNoOfTermsTxtBox.Text);
                 double termPayment = Double.Parse(issueLoanTermPaymentTxtBox.Text);
+                double profit = Double.Parse(issueLoanProfitTxtBox.Text);
                 string guar1Name = issueLoanGuarName1TxtBox.Text;
                 string guar2Name = issueLoanGuarName2TxtBox.Text;
                 string guar1Add = issueLoanGuarAddress1TxtBox.Text;
@@ -728,7 +728,7 @@ namespace LoanRecorder
                 guarantors.AddLast(new Guarantor(guar1Name, guar1Add));
                 guarantors.AddLast(new Guarantor(guar2Name, guar2Add));
 
-                if (Database.IssueLoan(new LoanDetails(relDate, amount, noOfTerms, termPayment, new LoanType(typeId)), guarantors, pid))
+                if (Database.IssueLoan(new LoanDetails(relDate, amount, profit, noOfTerms, termPayment, new LoanType(typeId)), guarantors, pid))
                 {
                     clearIssueLoanPanel();
                     fillLoanDataGrid();
@@ -900,10 +900,8 @@ namespace LoanRecorder
 
             if (double.TryParse(issueLoanAmountTxtBox.Text, out amount))
             {
-                double profit = 0.1 * amount;
-
-                issueLoanPayableTxtBox.Text = "" + (amount + profit);
-                issueLoanProfitTxtBox.Text = "" + profit;
+                issueLoanPayableTxtBox.Text = "" + (amount + Global.FULL_PROFIT(amount));
+                issueLoanProfitTxtBox.Text = "" + Global.FULL_PROFIT(amount);
 
                 setNoOfTerms();
             }
@@ -950,16 +948,14 @@ namespace LoanRecorder
                     string name = loanDataGrid.Rows[e.RowIndex].Cells[3].Value.ToString();
                     string nic = loanDataGrid.Rows[e.RowIndex].Cells[4].Value.ToString();
                     int termNo = Int32.Parse(loanDataGrid.Rows[e.RowIndex].Cells[10].Value.ToString()) + 1;
-                    double amount = double.Parse(loanDataGrid.Rows[e.RowIndex].Cells[9].Value.ToString());
-
-                    AddPaymentForm frm = new AddPaymentForm(new Person(pid, name, nic), loanId, termNo, amount);
+                    int noOfTerms = Int32.Parse(loanDataGrid.Rows[e.RowIndex].Cells[8].Value.ToString());
+                    double amountPerTerm = double.Parse(loanDataGrid.Rows[e.RowIndex].Cells[9].Value.ToString());
+                    string type = loanDataGrid.Rows[e.RowIndex].Cells[5].Value.ToString();
+                    DateTime relDate = DateTime.Parse(loanDataGrid.Rows[e.RowIndex].Cells[6].Value.ToString());
+                    
+                    AddPaymentForm frm = new AddPaymentForm(new Person(pid, name, nic), loanId, termNo, amountPerTerm, toPay, relDate);
 
                     frm.ShowDialog();
-
-                    if ((toPay - amount) <= 0)
-                    {
-                        Database.SettleLoan(loanId);
-                    }
                     
                     fillLoanDataGrid();
                     fillDuePayDataGrid();
@@ -1003,7 +999,7 @@ namespace LoanRecorder
             {
                 if (int.TryParse(issueLoanNoOfTermsTxtBox.Text, out noOfTerms))
                 {
-                    double total = 0.1 * amount + amount;
+                    double total = Global.FULL_PROFIT(amount) + amount;
                     double amountPerTerm = total / noOfTerms;
 
                     issueLoanTermPaymentTxtBox.Text = "" + amountPerTerm;
