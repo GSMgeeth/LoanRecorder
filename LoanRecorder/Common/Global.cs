@@ -15,5 +15,9 @@ namespace LoanRecorder.Common
         public static int WEEKLY = 7;
         public static int FIVE_DAY = 5;
         public static int DAILY = 1;
+
+        public static int W_LOAN_PERIOD_DAYS = (int)(MAX_LOAN_PERIOD / WEEKLY);
+        public static int F_LOAN_PERIOD_DAYS = (int)(MAX_LOAN_PERIOD / FIVE_DAY);
+        public static int D_LOAN_PERIOD_DAYS = (int)(MAX_LOAN_PERIOD / DAILY);
     }
 }

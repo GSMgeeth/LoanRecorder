@@ -904,6 +904,8 @@ namespace LoanRecorder
 
                 issueLoanPayableTxtBox.Text = "" + (amount + profit);
                 issueLoanProfitTxtBox.Text = "" + profit;
+
+                setNoOfTerms();
             }
             else
             {
@@ -1013,10 +1015,10 @@ namespace LoanRecorder
             }
         }
 
-        private void issueLoanTypeCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void setNoOfTerms()
         {
             Object obj = issueLoanTypeCmbBox.SelectedItem;
-            
+
             if (obj != null)
             {
                 string type = issueLoanTypeCmbBox.GetItemText(obj);
@@ -1024,18 +1026,23 @@ namespace LoanRecorder
                 switch (type)
                 {
                     case "Daily":
-                        issueLoanNoOfTermsTxtBox.Text = "" + (int)(Global.MAX_LOAN_PERIOD / Global.DAILY);
+                        issueLoanNoOfTermsTxtBox.Text = "" + Global.D_LOAN_PERIOD_DAYS;
                         break;
                     case "Weekly":
-                        issueLoanNoOfTermsTxtBox.Text = "" + (int)(Global.MAX_LOAN_PERIOD / Global.WEEKLY);
+                        issueLoanNoOfTermsTxtBox.Text = "" + Global.W_LOAN_PERIOD_DAYS;
                         break;
                     case "FiveDay":
-                        issueLoanNoOfTermsTxtBox.Text = "" + (int)(Global.MAX_LOAN_PERIOD / Global.FIVE_DAY);
+                        issueLoanNoOfTermsTxtBox.Text = "" + Global.F_LOAN_PERIOD_DAYS;
                         break;
                 }
 
                 setAmountPerTerm();
             }
+        }
+
+        private void issueLoanTypeCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            setNoOfTerms();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace LoanRecorder.Common
             Boolean isDue = false;
             int counter = -1;
 
-            double days = (DateTime.Today - relDate).TotalDays;
+            double days = (DateTime.Today - relDate).TotalDays - 1;
 
             switch (type)
             {
