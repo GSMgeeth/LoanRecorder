@@ -14,47 +14,32 @@ namespace LoanRecorder.Common
             Boolean isDue = false;
             int counter = -1;
 
-            double days = (DateTime.Today - relDate).TotalDays;
+            double days = (DateTime.Today - relDate).TotalDays - 1;
 
             switch (type)
             {
                 case "Weekly":
 
                     counter = (int) (days / Global.WEEKLY);
-
-                    //for (DateTime i = relDate; i < DateTime.Today; i.AddDays(7))
-                    //{
-                    //    counter++;
-                    //}
-
+                    
                     isDue = (counter > paidTerms);
                     dueDate = relDate.AddDays(Global.WEEKLY * paidTerms + Global.WEEKLY);
 
                     break;
 
-                case "Monthly":
+                case "FiveDay":
 
-                    counter = (int)(days / Global.MONTHLY);
-
-                    //for (DateTime i = relDate; i < DateTime.Today; i.AddDays(30))
-                    //{
-                    //    counter++;
-                    //}
-
+                    counter = (int)(days / Global.FIVE_DAY);
+                    
                     isDue = (counter > paidTerms);
-                    dueDate = relDate.AddDays(Global.MONTHLY * paidTerms + Global.MONTHLY);
+                    dueDate = relDate.AddDays(Global.FIVE_DAY * paidTerms + Global.FIVE_DAY);
 
                     break;
 
                 case "Daily":
 
                     counter = (int)(days / Global.DAILY);
-
-                    //for (DateTime i = relDate; i < DateTime.Today; i.AddDays(30))
-                    //{
-                    //    counter++;
-                    //}
-
+                    
                     isDue = (counter > paidTerms);
                     dueDate = relDate.AddDays(paidTerms * Global.DAILY + Global.DAILY);
 
@@ -66,6 +51,47 @@ namespace LoanRecorder.Common
             }
 
             return isDue;
+        }
+
+        public static Boolean IsTmrw(DateTime relDate, string type, int paidTerms)
+        {
+            Boolean isTmrw = false;
+            int counter = -1;
+
+            double days = (DateTime.Today - relDate).TotalDays + 1;
+
+            switch (type)
+            {
+                case "Weekly":
+
+                    counter = (int)(days / Global.WEEKLY);
+                    
+                    isTmrw = (counter > paidTerms);
+
+                    break;
+
+                case "FiveDay":
+
+                    counter = (int)(days / Global.FIVE_DAY);
+
+                    isTmrw = (counter > paidTerms);
+
+                    break;
+
+                case "Daily":
+
+                    counter = (int)(days / Global.DAILY);
+                    
+                    isTmrw = (counter > paidTerms);
+
+                    break;
+
+                default:
+                    Console.WriteLine("Wrong type!");
+                    break;
+            }
+
+            return isTmrw;
         }
     }
 }

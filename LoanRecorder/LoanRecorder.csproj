@@ -83,6 +83,7 @@
     <Compile Include="Role\Person.cs" />
     <Compile Include="Role\Views\DuePaymentView.cs" />
     <Compile Include="Role\Views\LoanDataGridView.cs" />
+    <Compile Include="Role\Views\TmrwPaymentView.cs" />
     <EmbeddedResource Include="AddPaymentForm.resx">
       <DependentUpon>AddPaymentForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -43,7 +43,10 @@
             this.addPayBtn = new System.Windows.Forms.Button();
             this.addPaymentErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.label8 = new System.Windows.Forms.Label();
+            this.addPayToTermTxtBox = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.addPaymentErrorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addPayToTermTxtBox)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -101,7 +104,7 @@
             this.addPayTermNoTxtBox.Location = new System.Drawing.Point(120, 145);
             this.addPayTermNoTxtBox.Name = "addPayTermNoTxtBox";
             this.addPayTermNoTxtBox.ReadOnly = true;
-            this.addPayTermNoTxtBox.Size = new System.Drawing.Size(287, 26);
+            this.addPayTermNoTxtBox.Size = new System.Drawing.Size(50, 26);
             this.addPayTermNoTxtBox.TabIndex = 6;
             // 
             // label4
@@ -150,6 +153,7 @@
             this.addPayDatePicker.Name = "addPayDatePicker";
             this.addPayDatePicker.Size = new System.Drawing.Size(287, 26);
             this.addPayDatePicker.TabIndex = 10;
+            this.addPayDatePicker.ValueChanged += new System.EventHandler(this.addPayDatePicker_ValueChanged);
             this.addPayDatePicker.Validating += new System.ComponentModel.CancelEventHandler(this.addPayDatePicker_Validating);
             this.addPayDatePicker.Validated += new System.EventHandler(this.addPayDatePicker_Validated);
             // 
@@ -174,12 +178,35 @@
             this.notifyIcon.Text = "notifyIcon1";
             this.notifyIcon.Visible = true;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(203, 146);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 20);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "To";
+            // 
+            // addPayToTermTxtBox
+            // 
+            this.addPayToTermTxtBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addPayToTermTxtBox.Location = new System.Drawing.Point(238, 145);
+            this.addPayToTermTxtBox.Name = "addPayToTermTxtBox";
+            this.addPayToTermTxtBox.Size = new System.Drawing.Size(50, 26);
+            this.addPayToTermTxtBox.TabIndex = 16;
+            this.addPayToTermTxtBox.ValueChanged += new System.EventHandler(this.addPayToTermTxtBox_ValueChanged);
+            this.addPayToTermTxtBox.Validating += new System.ComponentModel.CancelEventHandler(this.addPayToTermTxtBox_Validating);
+            this.addPayToTermTxtBox.Validated += new System.EventHandler(this.addPayToTermTxtBox_Validated);
+            // 
             // AddPaymentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(436, 356);
+            this.Controls.Add(this.addPayToTermTxtBox);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.addPayBtn);
             this.Controls.Add(this.addPayDatePicker);
             this.Controls.Add(this.label6);
@@ -198,6 +225,7 @@
             this.Text = "Add Payment";
             this.Load += new System.EventHandler(this.AddPaymentForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.addPaymentErrorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addPayToTermTxtBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -219,5 +247,7 @@
         private System.Windows.Forms.Button addPayBtn;
         private System.Windows.Forms.ErrorProvider addPaymentErrorProvider;
         private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown addPayToTermTxtBox;
     }
 }

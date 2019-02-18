@@ -53,16 +53,12 @@ namespace LoanRecorder
             table.Columns.Add("paymentId", typeof(long));
             table.Columns.Add("Amount", typeof(double));
             table.Columns.Add("Paid Date", typeof(DateTime));
-            table.Columns.Add("Term No", typeof(int));
+            table.Columns.Add("No of Terms", typeof(int));
 
             foreach (PaymentRecords payment in payments)
             {
                 DataRow row = table.NewRow();
-
-                Console.WriteLine("\n\n");
-                Console.WriteLine(payment.PaymentId);
-                Console.WriteLine("\n\n");
-
+                
                 row[0] = payment.PaymentId;
                 row[1] = payment.Amount;
                 row[2] = payment.PaidDate;

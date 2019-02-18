@@ -413,13 +413,14 @@ namespace LoanRecorder.Core
                 if (pid > 0)
                     try
                     {
-                        Connection.updateDB("insert into loan_details (pid, rel_date, rel_amount, no_of_terms, amount_per_term, loan_type_id) values (" +
+                        Connection.updateDB("insert into loan_details (pid, rel_date, rel_amount, no_of_terms, amount_per_term, loan_type_id, profit) values (" +
                             "" + pid + "," +
                             "'" + loan.RelDate.ToString("yyyy/MM/d") + "'," +
                             "" + loan.RelAmount + "," +
                             "" + loan.NoOfTerms + "," +
                             "" + loan.AmountPerTerm + "," +
-                            "" + loan.LoanType.Id + ");");
+                            "" + loan.LoanType.Id + "," +
+                            "" + loan.Profit + ");");
 
                         MySqlDataReader reader = Connection.getData("select MAX(loan_details_id) as id from loan_details where pid=" + pid);
 
@@ -460,7 +461,22 @@ namespace LoanRecorder.Core
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                MessageBox.Show("Something went wrong!", "Settle Loan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        public static Boolean MakeProfitHalf(long loanId)
+        {
+            try
+            {
+                Connection.updateDB("update loan_details set profit=(profit / 2) where loan_details_id=" + loanId);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Something went wrong!", "Settle Loan", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
@@ -498,7 +514,7 @@ namespace LoanRecorder.Core
         {
             MySqlDataReader reader = Connection.getData("select p.pid, ld.loan_details_id, lt.id, p.name, p.nic, ld.rel_date, " +
                         "lt.type_name, ld.rel_amount, ld.no_of_terms, count(pr.payment_id) as payment_counts, IFNULL(sum(pr.amount), 0.0) as paid, ld.amount_per_term, " +
-                        "ld.settled from loan_details ld inner join person p on ld.pid=p.pid left join payment_records pr " +
+                        "ld.settled, ld.profit from loan_details ld inner join person p on ld.pid=p.pid left join payment_records pr " +
                         "ON pr.loan_details_id=ld.loan_details_id inner join loan_type lt on lt.id=ld.loan_type_id " +
                         "group by ld.loan_details_id order by settled asc;");
 
@@ -520,6 +536,7 @@ namespace LoanRecorder.Core
                 loan.PaidCount = reader.GetInt32(9);
                 loan.PaidAmount = reader.GetDouble(10);
                 loan.AmountPerTerm = reader.GetDouble(11);
+                loan.Profit = reader.GetDouble(13);
 
                 loans.AddLast(loan);
             }
@@ -533,7 +550,7 @@ namespace LoanRecorder.Core
         {
             MySqlDataReader reader = Connection.getData("select p.pid, ld.loan_details_id, lt.id, p.name, p.nic, ld.rel_date, " +
                         "lt.type_name, ld.rel_amount, ld.no_of_terms, count(pr.payment_id) as payment_counts, IFNULL(sum(pr.amount), 0.0) as paid, ld.amount_per_term, " +
-                        "ld.settled from loan_details ld inner join person p on ld.pid=p.pid left join payment_records pr " +
+                        "ld.settled, ld.profit from loan_details ld inner join person p on ld.pid=p.pid left join payment_records pr " +
                         "ON pr.loan_details_id=ld.loan_details_id inner join loan_type lt on lt.id=ld.loan_type_id " +
                         "where p.name like '%" + name + "%' group by ld.loan_details_id order by settled asc;");
 
@@ -555,6 +572,7 @@ namespace LoanRecorder.Core
                 loan.PaidCount = reader.GetInt32(9);
                 loan.PaidAmount = reader.GetDouble(10);
                 loan.AmountPerTerm = reader.GetDouble(11);
+                loan.Profit = reader.GetDouble(13);
 
                 loans.AddLast(loan);
             }
@@ -585,10 +603,35 @@ namespace LoanRecorder.Core
             }
         }
 
+        public static Boolean AddPayments(long pid, long loanId, int termNo, int toTermNo, double amount, DateTime paidDate)
+        {
+            try
+            {
+                for (int i = termNo; i <= toTermNo; i++)
+                {
+                    Connection.updateDB("insert into payment_records (pid, loan_details_id, amount, paid_date, term_no) values (" +
+                "" + pid + "," +
+                "" + loanId + "," +
+                "" + amount + "," +
+                "'" + paidDate.ToString("yyyy/MM/d") + "'," +
+                "" + i + ");");
+                }
+                
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                return false;
+            }
+        }
+
         public static LinkedList<PaymentRecords> GetPaymentsByLoan(long pid, long loanId)
         {
-            MySqlDataReader reader = Connection.getData("select * from payment_records where pid=" + pid + " and loan_details_id=" + loanId + " " +
-                "order by paid_date desc;");
+            MySqlDataReader reader = Connection.getData("select payment_id, IFNULL(SUM(amount), 0) as amount, paid_date, " +
+                "COUNT(term_no) as term_no from payment_records where pid=" + pid + " and loan_details_id=" + loanId + " " +
+                "group by paid_date order by paid_date desc;");
 
             LinkedList<PaymentRecords> payments = new LinkedList<PaymentRecords>();
 
@@ -641,6 +684,40 @@ namespace LoanRecorder.Core
             reader.Close();
             
             return dues;
+        }
+
+        public static LinkedList<TmrwPaymentView> GetTmrw()
+        {
+            MySqlDataReader reader = Connection.getData("select p.pid, ld.loan_details_id, lt.id, p.name, p.nic, ld.rel_date, " +
+                        "lt.type_name, ld.rel_amount, ld.no_of_terms, count(pr.payment_id) as payment_counts, IFNULL(sum(pr.amount), 0.0) as paid, ld.amount_per_term, " +
+                        "ld.settled, p.address, p.tel from loan_details ld inner join person p on ld.pid=p.pid left join payment_records pr " +
+                        "ON pr.loan_details_id=ld.loan_details_id inner join loan_type lt on lt.id=ld.loan_type_id " +
+                        "group by ld.loan_details_id order by settled asc;");
+            
+            LinkedList<TmrwPaymentView> tmrws = new LinkedList<TmrwPaymentView>();
+
+            while (reader.Read())
+            {
+                if (DueSearcher.IsTmrw(reader.GetDateTime(5), reader.GetString(6), reader.GetInt32(9)))
+                {
+                    long pid = reader.GetInt32(0);
+                    long loanId = reader.GetInt32(1);
+                    string name = reader.GetString(3);
+                    string address = reader.GetString(13);
+                    string tel = reader.GetString(14);
+                    double relAmount = reader.GetDouble(7);
+                    int termNo = reader.GetInt32(9) + 1;
+                    double amount = reader.GetDouble(11);
+
+                    TmrwPaymentView tmrw = new TmrwPaymentView(pid, loanId, name, relAmount, termNo, amount, address, tel);
+
+                    tmrws.AddLast(tmrw);
+                }
+            }
+
+            reader.Close();
+
+            return tmrws;
         }
 
         public static double GetRate()
