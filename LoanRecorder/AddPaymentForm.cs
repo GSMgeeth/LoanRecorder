@@ -47,12 +47,12 @@ namespace LoanRecorder
 
         private void AddPaymentForm_Load(object sender, EventArgs e)
         {
+            addPayToTermTxtBox.Minimum = termNo;
+            addPayToTermTxtBox.Maximum = terms;
             addPayCustNameTxtBox.Text = person.Name;
             addPayCustNicTxtBox.Text = person.Nic;
             addPayAmountTxtBox.Text = "" + amountPerTerm;
             addPayTermNoTxtBox.Text = "" + termNo;
-            addPayToTermTxtBox.Minimum = termNo;
-            addPayToTermTxtBox.Maximum = terms;
         }
         
         private void addPayDatePicker_Validating(object sender, CancelEventArgs e)
@@ -87,8 +87,8 @@ namespace LoanRecorder
 
                     if ((toTerm == terms) && isEarlyDone())
                     {
-                        toPay = Global.HALF_PROFIT(relAmount) - paidAmount;
-                        amountPerTerm = toPay / ((toTerm - termNo) + 1);
+                        toPay = (Global.HALF_PROFIT(relAmount) + relAmount) - paidAmount;
+                        amountPerTerm = (int)(toPay / ((toTerm - termNo) + 1));
                     }
 
                     if (Database.AddPayments(person.Pid, loanId, termNo, toTerm, amountPerTerm, addPayDatePicker.Value))
@@ -171,29 +171,43 @@ namespace LoanRecorder
 
         private void addPayToTermTxtBox_ValueChanged(object sender, EventArgs e)
         {
-            int toTerm = Int32.Parse(addPayToTermTxtBox.Text);
+            if (!Validation.isFuture(addPayDatePicker.Value))
+            {
+                int toTerm = Int32.Parse(addPayToTermTxtBox.Value.ToString());
 
-            if ((toTerm == terms) && isEarlyDone())
-            {
-                addPayAmountTxtBox.Text = "" + ((Global.HALF_PROFIT(relAmount) - paidAmount) / ((toTerm - termNo) + 1)) * ((toTerm - termNo) + 1);
-            }
-            else
-            {
-                addPayAmountTxtBox.Text = "" + amountPerTerm * ((toTerm - termNo) + 1);
+                Console.WriteLine("cal toTerm : " + toTerm);
+                Console.WriteLine("cal terms : " + terms);
+                Console.WriteLine("cal termNo : " + termNo + "\n");
+
+                if ((toTerm == terms) && isEarlyDone())
+                {
+                    addPayAmountTxtBox.Text = "" + ((Global.HALF_PROFIT(relAmount) + relAmount) - paidAmount);
+                }
+                else
+                {
+                    addPayAmountTxtBox.Text = "" + amountPerTerm * ((toTerm - termNo) + 1);
+                }
             }
         }
 
         private void addPayDatePicker_ValueChanged(object sender, EventArgs e)
         {
-            int toTerm = Int32.Parse(addPayToTermTxtBox.Text);
+            if (!Validation.isFuture(addPayDatePicker.Value))
+            {
+                int toTerm = Int32.Parse(addPayToTermTxtBox.Value.ToString());
 
-            if ((toTerm == terms) && isEarlyDone())
-            {
-                addPayAmountTxtBox.Text = "" + ((Global.HALF_PROFIT(relAmount) - paidAmount) / ((toTerm - termNo) + 1)) * ((toTerm - termNo) + 1);
-            }
-            else
-            {
-                addPayAmountTxtBox.Text = "" + amountPerTerm * ((toTerm - termNo) + 1);
+                Console.WriteLine("cal toTerm : " + toTerm);
+                Console.WriteLine("cal terms : " + terms);
+                Console.WriteLine("cal termNo : " + termNo + "\n");
+
+                if ((toTerm == terms) && isEarlyDone())
+                {
+                    addPayAmountTxtBox.Text = "" + ((Global.HALF_PROFIT(relAmount) + relAmount) - paidAmount);
+                }
+                else
+                {
+                    addPayAmountTxtBox.Text = "" + amountPerTerm * ((toTerm - termNo) + 1);
+                }
             }
         }
     }

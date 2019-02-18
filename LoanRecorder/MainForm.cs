@@ -185,8 +185,13 @@ namespace LoanRecorder
                 row[8] = loan.NoOfTerms;
                 row[9] = loan.AmountPerTerm;
                 row[10] = loan.PaidCount;
-                row[11] = loan.PaidAmount;
-                row[12] = (loan.Profit + loan.RelAmount) - loan.PaidAmount;
+                row[11] = Math.Round(loan.PaidAmount);
+                
+                if (loan.NoOfTerms == loan.PaidCount)
+                    row[12] = 0;
+                else
+                    row[12] = (loan.Profit + loan.RelAmount) - loan.PaidAmount;
+
                 row[13] = loan.Profit;
                 
                 table.Rows.Add(row);
@@ -950,10 +955,12 @@ namespace LoanRecorder
                     int termNo = Int32.Parse(loanDataGrid.Rows[e.RowIndex].Cells[10].Value.ToString()) + 1;
                     int noOfTerms = Int32.Parse(loanDataGrid.Rows[e.RowIndex].Cells[8].Value.ToString());
                     double amountPerTerm = double.Parse(loanDataGrid.Rows[e.RowIndex].Cells[9].Value.ToString());
+                    double paidAmount = double.Parse(loanDataGrid.Rows[e.RowIndex].Cells[11].Value.ToString());
+                    double relAmount = double.Parse(loanDataGrid.Rows[e.RowIndex].Cells[7].Value.ToString());
                     string type = loanDataGrid.Rows[e.RowIndex].Cells[5].Value.ToString();
                     DateTime relDate = DateTime.Parse(loanDataGrid.Rows[e.RowIndex].Cells[6].Value.ToString());
                     
-                    AddPaymentForm frm = new AddPaymentForm(new Person(pid, name, nic), loanId, termNo, amountPerTerm, toPay, relDate);
+                    AddPaymentForm frm = new AddPaymentForm(new Person(pid, name, nic), loanId, termNo, amountPerTerm, toPay, relDate, noOfTerms, relAmount, paidAmount);
 
                     frm.ShowDialog();
                     

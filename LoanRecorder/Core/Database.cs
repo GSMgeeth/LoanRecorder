@@ -607,13 +607,16 @@ namespace LoanRecorder.Core
         {
             try
             {
-                Connection.updateDB("insert into payment_records (pid, loan_details_id, amount, paid_date, term_no) values (" +
+                for (int i = termNo; i <= toTermNo; i++)
+                {
+                    Connection.updateDB("insert into payment_records (pid, loan_details_id, amount, paid_date, term_no) values (" +
                 "" + pid + "," +
                 "" + loanId + "," +
                 "" + amount + "," +
                 "'" + paidDate.ToString("yyyy/MM/d") + "'," +
-                "" + termNo + ");");
-
+                "" + i + ");");
+                }
+                
                 return true;
             }
             catch (Exception ex)
