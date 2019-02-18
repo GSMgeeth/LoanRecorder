@@ -25,6 +25,7 @@ namespace LoanRecorder
         private void MainForm_Load(object sender, EventArgs e)
         {
             fillDuePayDataGrid();
+            filltmrwPayDataGrid();
             setLabelValues();
 
             fillCustomerDataGrid();
@@ -37,6 +38,51 @@ namespace LoanRecorder
             fillLoanTypeCmbBoxes();
 
             // setInterestRate();
+        }
+
+        private void filltmrwPayDataGrid()
+        {
+            DataTable table = new DataTable();
+
+            tmrwPayDataGrid.DataSource = null;
+
+            LinkedList<TmrwPaymentView> dues = Database.GetTmrw();
+
+            table.Columns.Add("pid", typeof(long));
+            table.Columns.Add("loanId", typeof(long));
+            table.Columns.Add("Customer", typeof(string));
+            table.Columns.Add("Address", typeof(string));
+            table.Columns.Add("Tel", typeof(string));
+            table.Columns.Add("Rel. Amount", typeof(double));
+            table.Columns.Add("Term", typeof(int));
+            table.Columns.Add("Amount", typeof(double));
+            table.Columns.Add("Date", typeof(DateTime));
+
+            foreach (TmrwPaymentView d in dues)
+            {
+                DataRow row = table.NewRow();
+
+                row[0] = d.Pid;
+                row[1] = d.LoanId;
+                row[2] = d.Name;
+                row[3] = d.Address;
+                row[4] = d.Tel;
+                row[5] = d.RelAmount;
+                row[6] = d.TermNo;
+                row[7] = d.Amount;
+                row[8] = DateTime.Today.AddDays(1);
+
+                table.Rows.Add(row);
+            }
+
+            tmrwPayDataGrid.DataSource = table;
+
+            tmrwPayDataGrid.Sort(tmrwPayDataGrid.Columns[6], ListSortDirection.Descending);
+
+            tmrwPayDataGrid.Columns[0].Visible = false;
+            tmrwPayDataGrid.Columns[1].Visible = false;
+            tmrwPayDataGrid.Columns[5].Visible = false;
+            tmrwPayDataGrid.Columns[8].Visible = false;
         }
 
         private void setLabelValues()
@@ -738,6 +784,7 @@ namespace LoanRecorder
                     clearIssueLoanPanel();
                     fillLoanDataGrid();
                     fillDuePayDataGrid();
+                    filltmrwPayDataGrid();
 
                     notifyIcon.Icon = SystemIcons.Application;
                     notifyIcon.BalloonTipText = "Loan Successfully issued!";
@@ -966,6 +1013,7 @@ namespace LoanRecorder
                     
                     fillLoanDataGrid();
                     fillDuePayDataGrid();
+                    filltmrwPayDataGrid();
                 }
             }
         }

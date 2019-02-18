@@ -686,6 +686,40 @@ namespace LoanRecorder.Core
             return dues;
         }
 
+        public static LinkedList<TmrwPaymentView> GetTmrw()
+        {
+            MySqlDataReader reader = Connection.getData("select p.pid, ld.loan_details_id, lt.id, p.name, p.nic, ld.rel_date, " +
+                        "lt.type_name, ld.rel_amount, ld.no_of_terms, count(pr.payment_id) as payment_counts, IFNULL(sum(pr.amount), 0.0) as paid, ld.amount_per_term, " +
+                        "ld.settled, p.address, p.tel from loan_details ld inner join person p on ld.pid=p.pid left join payment_records pr " +
+                        "ON pr.loan_details_id=ld.loan_details_id inner join loan_type lt on lt.id=ld.loan_type_id " +
+                        "group by ld.loan_details_id order by settled asc;");
+            
+            LinkedList<TmrwPaymentView> tmrws = new LinkedList<TmrwPaymentView>();
+
+            while (reader.Read())
+            {
+                if (DueSearcher.IsTmrw(reader.GetDateTime(5), reader.GetString(6), reader.GetInt32(9)))
+                {
+                    long pid = reader.GetInt32(0);
+                    long loanId = reader.GetInt32(1);
+                    string name = reader.GetString(3);
+                    string address = reader.GetString(13);
+                    string tel = reader.GetString(14);
+                    double relAmount = reader.GetDouble(7);
+                    int termNo = reader.GetInt32(9) + 1;
+                    double amount = reader.GetDouble(11);
+
+                    TmrwPaymentView tmrw = new TmrwPaymentView(pid, loanId, name, relAmount, termNo, amount, address, tel);
+
+                    tmrws.AddLast(tmrw);
+                }
+            }
+
+            reader.Close();
+
+            return tmrws;
+        }
+
         public static double GetRate()
         {
             MySqlDataReader reader = Connection.getData("select interest_percentage from interest where interest_id=1");
